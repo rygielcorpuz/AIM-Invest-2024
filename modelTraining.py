@@ -7,6 +7,13 @@ pip install pandas_ta
 pip install selectorlib
 
 pip install requests-html
+
+pip install pandas==1.5.3
+
+pip install keras==2.15.0
+
+pip install tensorflow==2.15.0
+
 '''
 
 
@@ -97,7 +104,6 @@ with open('outputnew.csv', 'w', newline='', encoding='utf-8') as csv_file:
 import pandas as pd
 test = pd.read_csv('outputnew.csv')
 
-pip install pandas==1.5.3
 
 test
 
@@ -411,9 +417,7 @@ column_names = fdf.columns.astype(str).tolist()
 # Print all column names as strings
 print(column_names)
 
-pip install keras==2.15.0
 
-pip install tensorflow==2.15.0
 
 from sklearn.preprocessing import MinMaxScaler
 import numpy as np
