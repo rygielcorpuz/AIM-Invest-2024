@@ -37,7 +37,7 @@ subtitle_html = "<h2 style='text-align: center; margin-top: -10px; margin-bottom
 st.markdown(subtitle_html, unsafe_allow_html=True)
 
 
-stocks = ("MSFT", "GOOG", "APPL", "GME")
+stocks = ("MSFT", "GOOG", "AAPL", "GME")
 selected_stock = st.selectbox("Select dataset for prediction", stocks)
 
 n_years = st.slider("Years of prediction:", 1, 4)
@@ -138,3 +138,11 @@ if selected == "Projects":
     st.title(f"You have selected {selected}")
 if selected == "Contact":
     st.title(f"You have selected {selected}")
+
+#future logo
+from PIL import Image
+img=Image.open('logo_placeholder.png')
+
+left_co, cent_co,last_co = st.columns(3)
+with cent_co:
+    st.image(img)
