@@ -12,7 +12,7 @@ def get_jsonparsed_data(url):
     return json.loads(data)
 
 # Get FMP API stored as environment variable
-apiKey = 
+apiKey = XNU6Q7M7FP8E72TQ
 
 # Financialmodelingprep (FMP) api base url
 base_url = "https://financialmodelingprep.com/api/v3/"
@@ -23,7 +23,7 @@ base_url = "https://financialmodelingprep.com/api/v3/"
 # This is the date range within which we want to get our earnings dates 
 today = datetime.datetime.today()
 today_string = today.strftime('%Y-%m-%d')
-future_string = (today + (months=3)).strftime('%Y-%m-%d')
+future_string = (today + (months==3)).strftime('%Y-%m-%d')
 
 # This is the full API endpoint to get the earnings dates from today to 6 months after
 url = f"{base_url}earning_calendar?from={today_string}&to={future_string}&apikey={apiKey}"
