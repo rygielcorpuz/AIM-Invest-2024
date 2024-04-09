@@ -211,53 +211,70 @@ def parse_news(news_table):
 
       #replacing 'today' with date, make sure not to use 'dataFrame' bc pandas doesnt know which function ur callign
         df['date'] = df['date'].replace('Today', datetime.today().strftime('%Y-%m-%d')) #this is getting the world time & formatting it
-        df['datetime'] = pd.to_datetime(df['date'] + ' ' + df['time'])
+        df['datetime'] = pd.to_datetime(df['date'] + ' ' + df['time'], format='mixed')
+
+        #df['datetime'] = pd.to_datetime(df['date'] + ' ' + df['time'], infer_datetime_format=True)
+
+
+
+        #df['datetime'] = pd.to_datetime(df['date'] + ' ' + df['time'])
     # Returns:
     #   parsed_news_df (df): Parsed news data with columns: date, time, headline, datetime
     return df
 
 
 
-# nltk.download('vader_lexicon') #downloads it
-# sid = SentimentIntensityAnalyzer()
+nltk.download('vader_lexicon') #downloads it
+sid = SentimentIntensityAnalyzer()
 
-# def score_news(parsed_news_df):
-#     # Score news headlines sentiment using VADER sentiment analysis
-#     # Parameters:
-#     #   parsed_news_df (DataFrame): Parsed news data with columns: date, time, headline, datetime
-#     # Returns:
-#     #   parsed_and_scored_news (DataFrame): News data with sentiment scores added
+def score_news(parsed_news_df):
+    # Score news headlines sentiment using VADER sentiment analysis
+    # Parameters:
+    #   parsed_news_df (DataFrame): Parsed news data with columns: date, time, headline, datetime
+    # Returns:
+    #   parsed_and_scored_news (DataFrame): News data with sentiment scores added
 
 
-#     # iterate through parsed_news_df headlines and compute polarity scores
-#     scores = [] #creates an empty list to put the sentiment scores in
-#     for headline in parsed_news_df['headline']:
-#       score = sid.polarity_scores(headline) #computes scores
-#       scores.append(score)
+    # iterate through parsed_news_df headlines and compute polarity scores
+    scores = [] #creates an empty list to put the sentiment scores in
+    for headline in parsed_news_df['headline']:
+      score = sid.polarity_scores(headline) #computes scores
+      scores.append(score)
 
-#     # convert scores to DataFrame
-#     scores_df = pd.DataFrame(scores)
+    # convert scores to DataFrame
+    scores_df = pd.DataFrame(scores)
 
-#     # appending data frames
-#     parsed_scored_news = parsed_news_df.join(scores_df) #adds scores to og dataframe
+    # appending data frames
+    parsed_scored_news = parsed_news_df.join(scores_df) #adds scores to og dataframe
 
-#     # Drop unnecessary columns
-#     parsed_scored_news.drop(['date', 'time', 'headline'], axis=1, inplace=True)
+    # Drop unnecessary columns
+    parsed_scored_news.drop(['date', 'time'], axis=1, inplace=True)
+    #parsed_scored_news.drop(['date', 'time', 'headline'], axis=1, inplace=True)
 
-#     # Rename sentiment score column
-#     parsed_scored_news.rename(columns={'sentiment': 'sentiment_score'}, inplace=True)
+    # Rename sentiment score column
+    parsed_scored_news.rename(columns={'sentiment': 'sentiment_score'}, inplace=True)
 
-#     # Set datetime column as index
-#     parsed_scored_news.set_index('datetime', inplace=True)
+    # Set datetime column as index
+    parsed_scored_news.set_index('datetime', inplace=True)
 
-#     return parsed_scored_news
+    return parsed_scored_news
 
-# # Example usage:
-# # parsed_news_df is assumed to be the DataFrame obtained after parsing news articles
-# # scored_news_df = score_news(parsed_news_df)
-#     pass
+# Example usage:
+# parsed_news_df is assumed to be the DataFrame obtained after parsing news articles
+# scored_news_df = score_news(parsed_news_df)
+    pass
 
+
+# ticker = "AAPL"
 # news = get_news(ticker)
-# parsed = parse_news(news)
-# df = score_news(parsed)
-# st.dataframe(df)
+# print(news.prettify())
+# parse_news(get_news('AAPL'))
+# parse_news(news)
+# score_news(get_news('APPL'))
+# score_news(news)
+tableNews = get_news(ticker)
+parseNews = parse_news(tableNews)
+df = score_news(parseNews)
+#df.to_csv("dff.csv", index=False)
+print(df)
+st.dataframe(df)
