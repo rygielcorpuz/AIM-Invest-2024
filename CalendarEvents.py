@@ -12,7 +12,7 @@ def get_jsonparsed_data(url):
     return json.loads(data)
 
 # Get FMP API stored as environment variable
-apiKey = XNU6Q7M7FP8E72TQ
+apiKey = 'Z6dweyzBlbFIYce8Dm4YIKufDxyCqO3d'
 
 # Financialmodelingprep (FMP) api base url
 base_url = "https://financialmodelingprep.com/api/v3/"
