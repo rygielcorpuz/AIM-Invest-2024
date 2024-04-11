@@ -20,6 +20,7 @@ from prophet.plot import plot_plotly
 from plotly import graph_objs as go #plotly is an interactive graph
 
 import webbrowser
+import base64
 
 #tab name for fun
 st.set_page_config(
@@ -63,6 +64,20 @@ def authenticate_user():
             #return False
 
 if authenticate_user():
+    def sidebar_bg(side_bg):
+        side_bg_ext = 'gif'
+        st.markdown(
+            f"""
+            <style>
+            [data-testid="stSidebar"] > div:first-child {{
+                background: url(data:image/{side_bg_ext};base64,{base64.b64encode(open(side_bg, "rb").read()).decode()});
+                }}
+            </style>
+            """,
+        unsafe_allow_html=True,
+        )
+    side_bg = 'treegif.webp'
+    sidebar_bg(side_bg)
 
     START = "2015-01-01" #where data starts
     TODAY = datetime.today().strftime("%Y-%m-%d") #all the way to today
