@@ -97,7 +97,6 @@ if authenticate_user():
     #ticker = st.text_input("Enter Ticker Name", "AAPL")
     sentAnal = st.text_input('Enter Sentiment Analysis', 'You are Either going to be Happy 😊 or Sad 😢' )
     ticker = st.text_input('Enter desired stock ticker for prediction', 'AAPL')
-    sex = st.select_slider("Choose Sex", ['male','female'])
     istrategy = st.slider("Investment Strategy",0,1000)
     startInvest = st.slider("Starting Investment",0,1000)
     timeHorizon = st.slider("Time Horizon",0,1000)
@@ -327,8 +326,15 @@ if authenticate_user():
     # score_news(get_news('APPL'))
     # score_news(news)
     tableNews = get_news(ticker)
+    print(tableNews)
     parseNews = parse_news(tableNews)
+    print(parseNews)
     df = score_news(parseNews)
     #df.to_csv("dff.csv", index=False)
     print(df)
     st.dataframe(df)
+
+    # turn headlines into csv
+    df.drop(['neg', 'neu', 'pos', 'compound'], axis=1, inplace=True)
+    df.to_csv("headlines.csv", index=False)
+
