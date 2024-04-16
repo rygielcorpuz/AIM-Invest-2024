@@ -70,7 +70,7 @@ calendar_events = []
 for event in events:
     if event['symbol'] in tickers:
         calendar_event = {}
-        calendar_event['title'] = event['symbol'] + " " + emoji_dict.get(event['symbol'], "")
+        calendar_event['title'] = event['symbol'] + " " + emoji_dict.get(event['symbol'], "") + "💵"
         #calendar_event['symbol'] = event['date']
         if event['date'] == 'Before Market Open': # before market opens, add sunrise symbol
             calendar_event['date'] = '🌅' + calendar_event['date']
