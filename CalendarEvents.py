@@ -13,7 +13,7 @@ def get_jsonparsed_data(url):
     return json.loads(data)
 
 # Get FMP API stored as environment variable
-apiKey = 'bdmgSco6IiUYAwzHm2leis9Hjrmpznkr'
+apiKey = ''   
 
 # Financialmodelingprep (FMP) api base url
 base_url = "https://financialmodelingprep.com/api/v3/"
@@ -96,10 +96,7 @@ calendar_options = {
     
 
 custom_css="""
-.fc-day:after {
-  background-color: lightblue; /* Adjust the color as needed */
-  opacity: 0.3; /* Adjust opacity for better readability */
-}
+
 """
 
 
