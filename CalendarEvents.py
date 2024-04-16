@@ -51,7 +51,7 @@ with st.sidebar:
     st.write("")
     st.write('')
 
-    st.markdown("Markdown COntent")
+    st.markdown("Markdown Content")
     st.write('')
 
     # Display the data powered by
@@ -70,13 +70,14 @@ calendar_events = []
 for event in events:
     if event['symbol'] in tickers:
         calendar_event = {}
-        calendar_event['symbol'] = event['symbol'] + " " + emoji_dict.get(event['symbol'], "")
-        calendar_event['symbol'] = event['date']
+        calendar_event['title'] = event['symbol'] + " " + emoji_dict.get(event['symbol'], "")
+        #calendar_event['symbol'] = event['date']
         if event['date'] == 'Before Market Open': # before market opens, add sunrise symbol
             calendar_event['date'] = '🌅' + calendar_event['date']
         elif event['date'] == '': # after market closes, add sunset symbol
             calendar_event['date'] = '🌇'   + calendar_event['date']     
-        calendar_event['date'] = event['date']
+        else:
+            calendar_event['date'] = event['date']
         calendar_events.append(calendar_event)
 
 st.header("Main Content")
