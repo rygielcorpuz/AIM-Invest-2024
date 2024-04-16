@@ -19,6 +19,10 @@ from prophet import Prophet
 from prophet.plot import plot_plotly
 from plotly import graph_objs as go #plotly is an interactive graph
 
+#import fireworks
+#from fireworks.client import Fireworks
+import csv
+
 import webbrowser
 import base64
 
@@ -337,4 +341,38 @@ if authenticate_user():
     # turn headlines into csv
     df.drop(['neg', 'neu', 'pos', 'compound'], axis=1, inplace=True)
     df.to_csv("headlines.csv", index=False)
+    # api_key = "AgVn8csdNAt5zUogJAn6CFa6PMUFRInohxjDaoqwsmqdzMPP"  
 
+    # # Initialize Fireworks.ai client 
+    # client = Fireworks(api_key=api_key)  
+    # # Define the model identifier 
+    # model_identifier = "accounts/fireworks/models/mixtral-8x7b-instruct"  
+    # # Read the CSV file 
+    # csv_file_path = "headlines.csv"  
+    # # Function to read CSV file and create prompt 
+    # def create_prompt_from_csv(csv_file_path, prompt):     
+    #     with open(csv_file_path, newline='') as csvfile:         
+    #         reader = csv.reader(csvfile)         
+    #         # Concatenate rows into a single string         
+    #         csv_data = ' '.join(','.join(row) for row in reader)     
+    #         # Combine the prompt and CSV data     
+    #         full_prompt = f"{prompt}\n\n{csv_data}"     
+    #         return full_prompt  
+    
+    # # Define the prompt 
+    # prompt = "Analyze the headlines summary and provide insights that would be relevant to a beginner with less experience with stocks."  
+    # # Create the full prompt from the CSV file and the prompt 
+    # full_prompt = create_prompt_from_csv(csv_file_path, prompt)  
+    # # Make the API request response = clien
+    # response = client.completions.create(
+    # model=model_identifier,
+    # prompt=full_prompt
+    # )
+    
+    # if response.status_code == 200:
+    #     result = response.json()
+    #     # Process the result as needed
+    #     st.write(result)
+    # else:
+    #     print("Error:", response.status_code)
+    #     st.write(response.text)

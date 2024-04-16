@@ -86,6 +86,7 @@ if authenticate_user():
         )
     # side_bg = 'treegif.webp'
     # sidebar_bg(side_bg)
+    
 
     START = "2015-01-01" #where data starts
     TODAY = datetime.today().strftime("%Y-%m-%d") #all the way to today
@@ -133,7 +134,11 @@ if authenticate_user():
 
     ################################################
 
-    #ticker = st.text_input("Enter Ticker Name", "AAPL")
+    # relaxing lofi music
+    audio_file = open("Colorful-Flowers(chosic.com).mp3", "rb")
+    audio_bytes = audio_file.read()
+    st.audio(audio_bytes, format="audio/mp3")
+
     ticker = st.text_input('Enter desired stock ticker for prediction', 'AAPL')
     istrategy = st.slider("Investment Strategy",0,1000)
     startInvest = st.slider("Starting Investment",0,1000)
