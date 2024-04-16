@@ -41,13 +41,12 @@ events = get_earnings_dates(url)
 
 
 with st.sidebar:
-    st.title("Sidebar Title")
-    st.header("Header")
+    st.title("Stock Predictor")
+    st.header("Earnings Calendar")
     tickers = ['GOOG', 'META', 'TSLA', 'NET', 'V', 'MA', 'BA', 'C']
     
     # For users to enter tickers of interest
-    tickers_string = st.text_area('Enter tickers separated by commas', 
-                                value = '').upper()
+    tickers_string = st.text_area('Enter tickers separated by commas', value = '').upper()
     st.write("")
     st.write('')
 
@@ -97,7 +96,10 @@ calendar_options = {
     
 
 custom_css="""
-
+.fc-day:after {
+  background-color: lightblue; /* Adjust the color as needed */
+  opacity: 0.3; /* Adjust opacity for better readability */
+}
 """
 
 
