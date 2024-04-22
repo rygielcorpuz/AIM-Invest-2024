@@ -1,29 +1,25 @@
 import streamlit as st
-from datetime import datetime
-from streamlit_option_menu import option_menu
-
-from urllib.request import urlopen, Request
-from bs4 import BeautifulSoup as bs #important for data scraping
 import pandas as pd #helps w/ data manipulation
 import re
 import requests # helps send & receive response from web browswer
 import plotly
 import plotly.express as px
 import json # for graph plotting in website
-# NLTK VADER for sentiment analysis
-import nltk
-nltk.downloader.download('vader_lexicon')
-from nltk.sentiment.vader import SentimentIntensityAnalyzer
-
+import nltk # NLTK VADER for sentiment analysis
 import yfinance as yf 
+import webbrowser
+import base64
+import numpy as np
+nltk.downloader.download('vader_lexicon')
+from datetime import datetime
+from streamlit_option_menu import option_menu
+from urllib.request import urlopen, Request
+from bs4 import BeautifulSoup as bs #important for data scraping
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from prophet import Prophet
 from prophet.plot import plot_plotly
 from plotly import graph_objs as go #plotly is an interactive graph
 
-import webbrowser
-import base64
-from fireworks.client import Fireworks
- 
 
 #tab name for fun
 st.set_page_config(
@@ -31,8 +27,7 @@ st.set_page_config(
     page_icon= ":chart_with_upwards_trend:"
 )
 
-
-#'Are you Sober?' Page
+# #'Are you Sober?' Page
 def creds_entered():
     if st.session_state["user"].strip() == "yes": #and st.session_state["passwd"].strip() == "admin":
         st.session_state["authenticated"] = True
@@ -56,21 +51,11 @@ def authenticate_user():
             st.text_input(label="Are you sober?", value="", key="user", on_change=creds_entered)
             return False
 
-
-        #st.text_input(label="Password :", value="", key="passwd", type="password", on_change=creds_entered)
-#        return False
-#    else:
         if st.session_state["authenticated"]:
             return True
-#        else:
-   
-            #st.text_input(label="Are you sober?", value="", key="yes", on_change=creds_entered)
-            #st.text_input(label="Password :", value=" ", key="passwd", type="password", on_change=creds_entered)
-            #return False
 
 
-
-#######################################################################################################
+#everything in the website should is down below 
 if authenticate_user():
     def sidebar_bg(side_bg):
         side_bg_ext = 'gif'
@@ -84,15 +69,11 @@ if authenticate_user():
             """,
         unsafe_allow_html=True,
         )
-    # side_bg = 'treegif.webp'
-    # sidebar_bg(side_bg)
-    
+    side_bg = 'treegif.webp'
+    sidebar_bg(side_bg)
 
     START = "2015-01-01" #where data starts
     TODAY = datetime.today().strftime("%Y-%m-%d") #all the way to today
-
-
-
 
     # #2 Horizontal Menu
     # selected = option_menu(
@@ -124,44 +105,24 @@ if authenticate_user():
 
     
 
-    # Define the HTML strings for the title and subtitle
+    # DISPLAYING EVERYTHING
     title_html = "<h1 style='text-align: center; font-family: Times New Roman;'>📉 🎋PandAI🎋 📈</h1>"
     subtitle_html = "<h2 style='text-align: center; margin-top: -10px; margin-bottom: 20px; font-size: smaller;'>💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸</h2>"
 
-    #displaying it all
     st.markdown(title_html, unsafe_allow_html=True)
     st.markdown(subtitle_html, unsafe_allow_html=True)
 
-    ################################################
-
-    # relaxing lofi music
-    audio_file = open("Colorful-Flowers(chosic.com).mp3", "rb")
-    audio_bytes = audio_file.read()
-    st.audio(audio_bytes, format="audio/mp3")
-
+    ticker = st.text_input("Enter Ticker Name", "AAPL")
     ticker = st.text_input('Enter desired stock ticker for prediction', 'AAPL')
-    istrategy = st.slider("Investment Strategy",0,1000)
-    startInvest = st.slider("Starting Investment",0,1000)
+
+    n_years = st.slider("Years of prediction:", 1, 4)
+    period = n_years * 365
 
     #Run Button
     result = st.button("Run")
     st.write(result)
     if result:
         st.write("Prediction was run")
-
-
-
-
-
-    #stocks = ("MSFT", "GOOG", "AAPL", "GME")
-    #ticker = st.selectbox("Select dataset for prediction", stocks)
-
-    # i dont remember if we need this or not
-    n_years = st.slider("Years of prediction:", 1, 4)
-    period = n_years * 365
-
-
-   
 
     def load_data(ticker):
         data = yf.download(ticker, START, TODAY)
@@ -207,42 +168,17 @@ if authenticate_user():
     st.write(fig2)
 
 
-    # #creating the vertical menu bar
-    # #making a side bar menu
-    # with st.sidebar:#so the menu bar wont automatically pop 
-    #     selected = option_menu(
-    #         menu_title =None, #required or put "Main Menu" here
-    #         options=["Home", "Projects", "Contact", "Calendar"], #required
-    #         icons=["house", "book", "envelope", "calendar"], #optional
-    #         menu_icon="cast", #optional - icon for menu title
-    #         default_index=0, #optional - when u open the website, where default it will open, so 'Home' will be selected first
-    #         orientation="vertical",
-    #         styles={
-    #             "container": {"padding": "0!important", "background-color":"peach"},
-    #             "icon": {"color": "orange", "font-size": "25px"},
-    #             "nav-link": {
-    #                 "font-size": "25px",
-    #                 "text-align": "left",
-    #                 "margin": "0px",
-    #                 "--hover-color": "#eee",
-    #             },
-    #             "nav-link-selected": {"background-color": "pink"},
-    #         },
-    #     )
-
-    
-
     #future logo
     from PIL import Image
     img=Image.open('logo_placeholder.png')
 
     
-
     left_co, cent_co,last_co = st.columns(3)
     with cent_co:
         st.image(img)
 
 
+    #Function: GET NEWS TICKER  
     def get_news(ticker):
         finviz_url = "https://finviz.com/quote.ashx?t="
         url = finviz_url + ticker
@@ -253,11 +189,10 @@ if authenticate_user():
         # Find 'news-table' in the Soup and load it into 'news_table'
         news_table = html.find(id='news-table')
         return news_table
-
         pass
 
 
-
+    #Function: PARSING THRU THE NEWS TABLE
     def parse_news(news_table):
         # Parse news data from HTML table into df
         arrayList = []
@@ -280,7 +215,6 @@ if authenticate_user():
                     arrayList.append([date, time, headline]) #putting an date, time, and headline arrayList inside of here
         #making a list of column names
 
-
         #set date w first index of td
             except:
                 pass
@@ -288,32 +222,20 @@ if authenticate_user():
 
             df = pd.DataFrame(arrayList, columns=columnName)
 
-        #replacing 'today' with date, make sure not to use 'dataFrame' bc pandas doesnt know which function ur callign
+        #replacing 'today' with date, make sure not to use 'dataFrame' bc pandas doesnt know which function ur calling
             df['date'] = df['date'].replace('Today', datetime.today().strftime('%Y-%m-%d')) #this is getting the world time & formatting it
             df['datetime'] = pd.to_datetime(df['date'] + ' ' + df['time'], format='mixed')
-
             #df['datetime'] = pd.to_datetime(df['date'] + ' ' + df['time'], infer_datetime_format=True)
-
-
-
             #df['datetime'] = pd.to_datetime(df['date'] + ' ' + df['time'])
         # Returns:
         #   parsed_news_df (df): Parsed news data with columns: date, time, headline, datetime
         return df
-
-
-
-    nltk.download('vader_lexicon') #downloads it
     sid = SentimentIntensityAnalyzer()
 
+
+    #Function: SCORES ARTICLES FOR SENTIMENT ANALYSIS
     def score_news(parsed_news_df):
-        # Score news headlines sentiment using VADER sentiment analysis
-        # Parameters:
-        #   parsed_news_df (DataFrame): Parsed news data with columns: date, time, headline, datetime
-        # Returns:
-        #   parsed_and_scored_news (DataFrame): News data with sentiment scores added
-
-
+       
         # iterate through parsed_news_df headlines and compute polarity scores
         scores = [] #creates an empty list to put the sentiment scores in
         for headline in parsed_news_df['headline']:
@@ -337,12 +259,7 @@ if authenticate_user():
         parsed_scored_news.set_index('datetime', inplace=True)
 
         return parsed_scored_news
-
-    # Example usage:
-    # parsed_news_df is assumed to be the DataFrame obtained after parsing news articles
-    # scored_news_df = score_news(parsed_news_df)
         pass
-
 
     # ticker = "AAPL"
     # news = get_news(ticker)
@@ -363,29 +280,37 @@ if authenticate_user():
     # turn headlines into csv
     df.drop(['neg', 'neu', 'pos', 'compound'], axis=1, inplace=True)
     df.to_csv("headlines.csv", index=False)
-    
-    df = pd.read_csv("headlines.csv")
 
 
-    text_data = df['headline']
+#Function: DISPLAYS SENTIMENT GRAPHS VISUALLY
+np.random.seed(0)
+dates = pd.date_range('2022-01-01', periods=100, freq='H')
+df = pd.DataFrame({
+    'date': dates,
+    'ticker': 'AAPL',
+    'sentiment_score': np.random.rand(100)
+})
 
+def plot_hourly_sentiment(df, ticker):
+    # Group by date and ticker columns from scored_news and calculate the mean
+    mean_scores = df.groupby(['date', 'ticker']).mean()
 
-    concatenated_text = "\n".join(text_data)
+    # Plot a bar chart with plotly
+    fig = px.bar(mean_scores, x=mean_scores.index.get_level_values(0), y='sentiment_score', title=ticker + ' Hourly Sentiment')
+    return fig
 
+def plot_daily_sentiment(df, ticker):
+    # Group by date and ticker columns from scored_news and calculate the mean
+    mean_scores = df.groupby(['date', 'ticker']).mean()
 
-    concatenated_text = concatenated_text.lower()
+    # Plot a bar chart with plotly
+    fig = px.bar(mean_scores, x=mean_scores.index.get_level_values(0), y='sentiment_score', title=ticker + ' Daily Sentiment')
+    return fig
 
-    api_key = "AgVn8csdNAt5zUogJAn6CFa6PMUFRInohxjDaoqwsmqdzMPP"
+# Call the functions
+hourly_fig = plot_hourly_sentiment(df, 'AAPL')
+daily_fig = plot_daily_sentiment(df, 'AAPL')
 
-
-    client = Fireworks(api_key="AgVn8csdNAt5zUogJAn6CFa6PMUFRInohxjDaoqwsmqdzMPP")
-    response = client.chat.completions.create(
-      model="accounts/fireworks/models/mixtral-8x7b-instruct",
-      messages=[{
-        "role": "user",
-        "content": "analyze the headlines summary and provide insights that would be relevant to a beginner with less experience with stocks",
-        "content": concatenated_text,
-
-      }],
-    )
-    st.write(response.choices[0].message.content)
+# Display the figures
+hourly_fig.show()
+daily_fig.show()
