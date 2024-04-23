@@ -45,8 +45,10 @@ with st.sidebar:
     st.header("Earnings Calendar")
     tickers = ['GOOG', 'META', 'TSLA', 'NET', 'V', 'MA', 'BA', 'C']
     
+    preloaded_tickers_string = 'TSLA, MSFT, APPL'.join(preloaded_tickers)
+
     # For users to enter tickers of interest
-    tickers_string = st.text_area('Enter tickers separated by commas', value = '').upper()
+    tickers_string = st.text_area('Enter tickers separated by commas', value =preloaded_tickers_string).upper()
     st.write("")
     st.write('')
 
