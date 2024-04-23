@@ -160,3 +160,5 @@ if authenticate_user():
     with cent_co:
         st.image(img)
         autoplay_audio("natureMusic.mp3")
+#Calendar Description:
+#The calendar shows th user when the market opens and closers and they can type in whatever ticker to look up the earnings call dates
