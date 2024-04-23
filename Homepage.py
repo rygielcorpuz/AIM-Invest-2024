@@ -61,8 +61,6 @@ def authenticate_user():
             st.text_input(label="Are you sober?", value="", key="user", on_change=creds_entered)
             return False
 
-        if st.session_state["authenticated"]:
-            return True
 
 
 #everything in the website should is down below 
@@ -117,10 +115,10 @@ if authenticate_user():
 
     # DISPLAYING EVERYTHING
     title_html = "<h1 style='text-align: center; font-family: Times New Roman;'>📉 🎋PandAI🎋 📈</h1>"
-    subtitle_html = "<h2 style='text-align: center; margin-top: -10px; margin-bottom: 20px; font-size: smaller;'>💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸</h2>"
+    # subtitle_html = "<h2 style='text-align: center; margin-top: -10px; margin-bottom: 20px; font-size: smaller;'>💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸💸</h2>"
 
     st.markdown(title_html, unsafe_allow_html=True)
-    st.markdown(subtitle_html, unsafe_allow_html=True)
+    # st.markdown(subtitle_html, unsafe_allow_html=True)
 
     st.page_link("Homepage.py", label="Home", icon="🏠")
     st.page_link("pages/1_Model and Portfolio.py", label="Model/Portfolio", icon="📂")
@@ -132,26 +130,13 @@ if authenticate_user():
     st.write("Welcome to PandAI, your virtual stock prediction application. Are you new to the stock market? Do you find yourself lost in the stocks? We here at PandAI have analyzed massive amounts of stock data in order to help make beginners like you. Simply press the Get Started button below, and we will lead you to our features.")
     st.write("1. Model and Portfolio: After answering some questions about your investment goals, we will give you a score and generate a portfolio of stocks that align with your best interests.")
     st.write("2. Stock Search: Enter the ticker for your desired company. We will sift through the most recent news articles relating to its stocks, summarize them, then give each a score based on its tone.")
-    st.write("3. Calendar: idk ask sammy")
+    st.write("3. Calendar: We show you when the market opens and closes. Type in a ticker to look up the earnings call dates.")
 
     #Get Started Button
     result = st.button("Get Started") 
     if result: #ideally opens up four new pages (3 features + about us)
         st.switch_page("pages/1_Model and Portfolio.py")
 
-    def autoplay_audio(file_path: str):
-        with open(file_path, "rb") as f:
-            data = f.read()
-            b64 = base64.b64encode(data).decode()
-            md = f"""
-                <audio controls autoplay="true">
-                <source src="data:audio/mp3;base64,{b64}" type="audio/mp3">
-                </audio>
-                """
-            st.markdown(
-                md,
-                unsafe_allow_html=True,
-            )
     
     #future logo
     from PIL import Image
@@ -159,6 +144,6 @@ if authenticate_user():
     left_co, cent_co,last_co = st.columns(3)
     with cent_co:
         st.image(img)
-        autoplay_audio("natureMusic.mp3")
+        
 #Calendar Description:
 #The calendar shows th user when the market opens and closers and they can type in whatever ticker to look up the earnings call dates
