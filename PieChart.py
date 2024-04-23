@@ -1,9 +1,6 @@
 import plotly.express as px
 import streamlit as st
 import json
-# THIS IS HARD CODED DATA USE DATA FROM 2 MODELS
-# OUDOM EDIT HERE
-# Define your asset classes and their corresponding allocations
 asset_classes = [
     'Communication Services', 'Consumer Discretionary', 'Consumer Staples',
     'Energy', 'Financials', 'Health Care', 'Industrials', 'Information Technology',
