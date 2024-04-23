@@ -20,12 +20,22 @@ from prophet import Prophet
 from prophet.plot import plot_plotly
 from plotly import graph_objs as go #plotly is an interactive graph
 
-
 #tab name for fun
 st.set_page_config(
     page_title="PandAI",
-    page_icon= ":chart_with_upwards_trend:"
+    page_icon=":chart_with_upwards_trend:",
+    initial_sidebar_state="collapsed"
 )
+# st.markdown(
+#     """
+# <style>
+#     [data-testid="collapsedControl"] {
+#         display: none
+#     }
+# </style>
+# """,
+#     unsafe_allow_html=True,
+# )
 
 # #'Are you Sober?' Page
 def creds_entered():
@@ -113,10 +123,21 @@ if authenticate_user():
     st.markdown(subtitle_html, unsafe_allow_html=True)
 
     st.page_link("Homepage.py", label="Home", icon="🏠")
-    st.page_link("pages/1_Portfolio.py", label="Portfolio", icon="📂")
-    st.page_link("pages/2_Stock History.py", label="Stock History", icon="📖")
+    st.page_link("pages/1_Model and Portfolio.py", label="Model/Portfolio", icon="📂")
+    st.page_link("pages/2_Stock Search.py", label="Stock Search", icon="🔍")
     st.page_link("pages/3_Calendar.py", label="Calendar", icon="📅")
     st.page_link("pages/4_About Us.py", label="About Us", icon="👤")
+
+    #Description
+    st.write("Welcome to PandAI, your virtual stock prediction application. Are you new to the stock market? Do you find yourself lost in the stocks? We here at PandAI have analyzed massive amounts of stock data in order to help make beginners like you. Simply press the Get Started button below, and we will lead you to our features.")
+    st.write("1. Model and Portfolio: After answering some questions about your investment goals, we will give you a score and generate a portfolio of stocks that align with your best interests.")
+    st.write("2. Stock Search: Enter the ticker for your desired company. We will sift through the most recent news articles relating to its stocks, summarize them, then give each a score based on its tone.")
+    st.write("3. Calendar: idk ask sammy")
+
+    #Get Started Button
+    result = st.button("Get Started") 
+    if result: #ideally opens up four new pages (3 features + about us)
+        st.switch_page("pages/1_Model and Portfolio.py")
 
     def autoplay_audio(file_path: str):
         with open(file_path, "rb") as f:
@@ -139,19 +160,3 @@ if authenticate_user():
     with cent_co:
         st.image(img)
         autoplay_audio("natureMusic.mp3")
-
-
-    # we haven't used a time period in our code but we might have to
-    # n_years = st.slider("Years of prediction:", 1, 4)
-    # period = n_years * 365
-
-    #Description
-    st.write("Welcome to PandAI, your virtual stock prediction application. Are you new to the stock market? Do you find yourself lost in the stocks? We here at PandAI have analyzed massive amounts of stock data in order to help make beginners like you. Simply press the Get Started button below, and we will lead you to our features.")
-    st.write("1. Model and Portfolio: After answering some questions about your investment goals, we will give you a score and generate a portfolio of stocks that align with your best interests.")
-    st.write("2. Stock History: Enter the ticker for your desired company. We will sift through the most recent news articles relating to its stocks, summarize them, then give each a score based on its tone.")
-    st.write("3. Calendar: idk ask sammy")
-
-    #Get Started Button
-    result = st.button("Get Started") 
-    if result: #ideally opens up four new pages (3 features + about us)
-        st.switch_page("pages/1_Portfolio.py")

@@ -7,6 +7,10 @@ from streamlit_calendar import calendar
 from dateutil.relativedelta import relativedelta
 # For parsing data from API from JSON to a Python Dictionary
 
+title_html = "<h1 style='text-align: center; font-family: Times New Roman;'>Calendar</h1>"
+
+st.markdown(title_html, unsafe_allow_html=True)
+
 def get_jsonparsed_data(url):
     response = urlopen(url)
     data = response.read().decode("utf-8")
