@@ -13,7 +13,7 @@ def get_jsonparsed_data(url):
     return json.loads(data)
 
 # Get FMP API stored as environment variable
-apiKey = ''   
+apiKey = 'bdmgSco6IiUYAwzHm2leis9Hjrmpznkr'   
 
 # Financialmodelingprep (FMP) api base url
 base_url = "https://financialmodelingprep.com/api/v3/"
@@ -44,11 +44,10 @@ with st.sidebar:
     st.title("Stock Predictor")
     st.header("Earnings Calendar")
     tickers = ['GOOG', 'META', 'TSLA', 'NET', 'V', 'MA', 'BA', 'C']
-    
-    preloaded_tickers_string = 'TSLA, MSFT, APPL'.join(preloaded_tickers)
+
 
     # For users to enter tickers of interest
-    tickers_string = st.text_area('Enter tickers separated by commas', value =preloaded_tickers_string).upper()
+    tickers_string = st.text_area('Enter tickers separated by commas', value = 'TSLA, MSFT, GOOG, MSFT, C, NVDA, META, MA, APPL, DELL').upper()
     st.write("")
     st.write('')
 
