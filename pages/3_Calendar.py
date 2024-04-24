@@ -7,17 +7,13 @@ from streamlit_calendar import calendar
 from dateutil.relativedelta import relativedelta
 # For parsing data from API from JSON to a Python Dictionary
 
-title_html = "<h1 style='text-align: center; font-family: Times New Roman;'>Calendar</h1>"
-
-st.markdown(title_html, unsafe_allow_html=True)
-
 def get_jsonparsed_data(url):
     response = urlopen(url)
     data = response.read().decode("utf-8")
     return json.loads(data)
 
 # Get FMP API stored as environment variable
-apiKey = 'TgYtqlNX19kIh3wLAujegPF7ytdUOW95'
+apiKey = ''   
 
 # Financialmodelingprep (FMP) api base url
 base_url = "https://financialmodelingprep.com/api/v3/"
@@ -48,9 +44,10 @@ with st.sidebar:
     st.title("Stock Predictor")
     st.header("Earnings Calendar")
     tickers = ['GOOG', 'META', 'TSLA', 'NET', 'V', 'MA', 'BA', 'C']
-    
+
+
     # For users to enter tickers of interest
-    tickers_string = st.text_area('Enter tickers separated by commas', value = '').upper()
+    tickers_string = st.text_area('Enter tickers separated by commas', value = 'TSLA, MSFT, GOOG, MSFT, C, NVDA, META, MA, APPL, DELL').upper()
     st.write("")
     st.write('')
 
@@ -100,10 +97,7 @@ calendar_options = {
     
 
 custom_css="""
-.fc-day:after {
-  background-color: lightblue; /* Adjust the color as needed */
-  opacity: 0.3; /* Adjust opacity for better readability */
-}
+
 """
 
 

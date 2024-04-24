@@ -123,7 +123,7 @@ if authenticate_user():
     st.page_link("Homepage.py", label="Home", icon="🏠")
     st.page_link("pages/1_Model and Portfolio.py", label="Model/Portfolio", icon="📂")
     st.page_link("pages/2_Stock Search.py", label="Stock Search", icon="🔍")
-    st.page_link("pages/3_CalendarEvents.py", label="Calendar", icon="📅")
+    st.page_link("pages/3_Calendar.py", label="Calendar", icon="📅")
     st.page_link("pages/4_About Us.py", label="About Us", icon="👤")
 
     #Description
