@@ -7,6 +7,22 @@ from streamlit_calendar import calendar
 from dateutil.relativedelta import relativedelta
 # For parsing data from API from JSON to a Python Dictionary
 
+#for the background
+def blur_image(image, radius):
+    blurred_image = image.filter(ImageFilter.GaussianBlur(radius))
+    return blurred_image
+    
+page_bg_img = """
+<style>
+[data-testid="stAppViewContainer"] {
+    background-image: url("https://img.freepik.com/free-photo/bamboo-leaf-elements-green_53876-95290.jpg");
+    background-size: cover;
+}
+</style>
+"""
+
+st.markdown(page_bg_img, unsafe_allow_html=True)
+
 title_html = "<h1 style='text-align: center; font-family: Times New Roman;'>Calendar</h1>"
 
 st.markdown(title_html, unsafe_allow_html=True)
@@ -109,18 +125,3 @@ custom_css="""
 
 calendar = calendar(events=calendar_events, options=calendar_options, custom_css=custom_css)
 
-#for the background
-def blur_image(image, radius):
-    blurred_image = image.filter(ImageFilter.GaussianBlur(radius))
-    return blurred_image
-    
-page_bg_img = """
-<style>
-[data-testid="stAppViewContainer"] {
-    background-image: url("https://img.freepik.com/free-photo/bamboo-leaf-elements-green_53876-95290.jpg");
-    background-size: cover;
-}
-</style>
-"""
-
-st.markdown(page_bg_img, unsafe_allow_html=True)
