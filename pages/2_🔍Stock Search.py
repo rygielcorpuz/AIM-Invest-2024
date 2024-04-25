@@ -21,6 +21,22 @@ from prophet import Prophet
 from prophet.plot import plot_plotly
 from plotly import graph_objs as go #plotly is an interactive graph
 
+#for the background
+def blur_image(image, radius):
+    blurred_image = image.filter(ImageFilter.GaussianBlur(radius))
+    return blurred_image
+        
+page_bg_img = """
+<style>
+[data-testid="stAppViewContainer"] {
+    background-image: url("https://img.freepik.com/free-photo/bamboo-leaf-elements-green_53876-95290.jpg");
+    background-size: cover;
+}
+</style>
+"""
+
+st.markdown(page_bg_img, unsafe_allow_html=True)
+
 title_html = "<h1 style='text-align: center; font-family: Times New Roman;'>Stock Search</h1>"
 st.markdown(title_html, unsafe_allow_html=True)
 
@@ -182,18 +198,4 @@ if run:
     # hourly_fig.show()
     # daily_fig.show()
 
-    #for the background
-    def blur_image(image, radius):
-        blurred_image = image.filter(ImageFilter.GaussianBlur(radius))
-        return blurred_image
-        
-    page_bg_img = """
-    <style>
-    [data-testid="stAppViewContainer"] {
-        background-image: url("https://img.freepik.com/free-photo/bamboo-leaf-elements-green_53876-95290.jpg");
-        background-size: cover;
-    }
-    </style>
-    """
-
-    st.markdown(page_bg_img, unsafe_allow_html=True)
+    

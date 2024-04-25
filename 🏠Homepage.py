@@ -26,6 +26,23 @@ st.set_page_config(
     page_icon=":bamboo:",
     initial_sidebar_state="collapsed"
 )
+
+
+#for the background
+def blur_image(image, radius):
+    blurred_image = image.filter(ImageFilter.GaussianBlur(radius))
+    return blurred_image
+    
+page_bg_img = """
+<style>
+[data-testid="stAppViewContainer"] {
+    background-image: url("https://img.freepik.com/free-photo/bamboo-leaf-elements-green_53876-95290.jpg");
+    background-size: cover;
+}
+</style>
+"""
+
+st.markdown(page_bg_img, unsafe_allow_html=True)
 # st.markdown(
 #     """
 # <style>
@@ -105,7 +122,7 @@ if authenticate_user():
     #Get Started Button
     result = st.button("Get Started") 
     if result: #ideally opens up four new pages (3 features + about us)
-        st.switch_page("pages/1_Model and Portfolio.py")
+        st.switch_page("pages/1_📂Model and Portfolio.py")
 
     def autoplay_audio(file_path: str):
         with open(file_path, "rb") as f:
@@ -130,19 +147,3 @@ if authenticate_user():
         autoplay_audio("natureMusic.mp3")
 #Calendar Description:
 #The calendar shows th user when the market opens and closers and they can type in whatever ticker to look up the earnings call dates
-
-#for the background
-def blur_image(image, radius):
-    blurred_image = image.filter(ImageFilter.GaussianBlur(radius))
-    return blurred_image
-    
-page_bg_img = """
-<style>
-[data-testid="stAppViewContainer"] {
-    background-image: url("https://img.freepik.com/free-photo/bamboo-leaf-elements-green_53876-95290.jpg");
-    background-size: cover;
-}
-</style>
-"""
-
-st.markdown(page_bg_img, unsafe_allow_html=True)
