@@ -35,9 +35,13 @@ def main():
     # User responses
     user_responses = []
     
+    # Initialize the total of the scale questions
+    total_score = 0
+    
     for i, question in enumerate(questions):
         if i < 2:
             response = st.slider(question, 0, 5, step=1)
+            total_score += response  # Add scale response to total score
         elif i == 2:
             response = st.radio(question, choices_q3)
         elif i == 3:
@@ -49,6 +53,8 @@ def main():
     st.write("Your responses:")
     for i, response in enumerate(user_responses):
         st.write(f"Question {i+1}: {response}")
+        
+    st.write(f"Total score of the first two questions: {total_score}")
     
 if __name__ == "__main__":
     main()
