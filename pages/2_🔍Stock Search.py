@@ -8,6 +8,7 @@ import plotly.express as px
 import json # for graph plotting in website
 import nltk # NLTK VADER for sentiment analysis
 import yfinance as yf 
+from fireworks.client import Fireworks
 import webbrowser
 import base64
 import numpy as np
@@ -163,6 +164,31 @@ if run:
     # turn headlines into csv
     df.drop(['neg', 'neu', 'pos', 'compound'], axis=1, inplace=True)
     df.to_csv("headlines.csv", index=False)
+    df = pd.read_csv("headlines.csv")
+
+
+    text_data = df['headline']
+
+
+    concatenated_text = "\n".join(text_data)
+
+
+    concatenated_text = concatenated_text.lower()
+
+    api_key = "AgVn8csdNAt5zUogJAn6CFa6PMUFRInohxjDaoqwsmqdzMPP"
+
+
+    client = Fireworks(api_key="AgVn8csdNAt5zUogJAn6CFa6PMUFRInohxjDaoqwsmqdzMPP")
+    response = client.chat.completions.create(
+      model="accounts/fireworks/models/mixtral-8x7b-instruct",
+      messages=[{
+        "role": "user",
+        "content": "analyze the headlines summary and provide insights that would be relevant to a beginner with less experience with stocks",
+        "content": concatenated_text,
+
+      }],
+    )
+    st.write(response.choices[0].message.content)
 
     #Function: DISPLAYS SENTIMENT GRAPHS VISUALLY 
     np.random.seed(0)
