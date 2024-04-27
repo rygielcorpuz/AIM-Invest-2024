@@ -20,6 +20,13 @@ from prophet import Prophet
 from prophet.plot import plot_plotly
 from plotly import graph_objs as go #plotly is an interactive graph
 
+#tab name for fun
+st.set_page_config(
+    page_title="PandAI",
+    page_icon=":bamboo:",
+    initial_sidebar_state="collapsed"
+)
+
 title_html = "<h1 style='text-align: center; font-family: Times New Roman;'>Model/Portfolio</h1>"
 st.markdown(title_html, unsafe_allow_html=True)
 

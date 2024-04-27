@@ -165,7 +165,6 @@ if authenticate_user():
 
 
 
-
     if result:  # ideally opens up four new pages (3 features + about us)
         st.switch_page("pages/1_📂Model and Portfolio.py")
 
