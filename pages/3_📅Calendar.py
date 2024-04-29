@@ -7,6 +7,13 @@ from streamlit_calendar import calendar
 from dateutil.relativedelta import relativedelta
 # For parsing data from API from JSON to a Python Dictionary
 
+#tab name for fun
+st.set_page_config(
+    page_title="PandAI",
+    page_icon=":bamboo:",
+    initial_sidebar_state="collapsed"
+)
+
 #for the background
 def blur_image(image, radius):
     blurred_image = image.filter(ImageFilter.GaussianBlur(radius))

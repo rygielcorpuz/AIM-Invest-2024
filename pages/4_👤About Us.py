@@ -3,6 +3,13 @@ import base64
 
 from PIL import Image
 
+#tab name for fun
+st.set_page_config(
+    page_title="PandAI",
+    page_icon=":bamboo:",
+    initial_sidebar_state="collapsed"
+)
+
 #for the background
 def blur_image(image, radius):
     blurred_image = image.filter(ImageFilter.GaussianBlur(radius))

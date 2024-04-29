@@ -89,8 +89,6 @@ def authenticate_user():
         if st.session_state["authenticated"]:
             return True
 
-
-#everything in the website should is down below 
 if authenticate_user():
     def sidebar_bg(side_bg):
         side_bg_ext = 'gif'
@@ -116,7 +114,9 @@ if authenticate_user():
     #title
     title_html = "<h1 style='text-align: center; font-family: Times New Roman;'>📉 🎋PandAI🎋 📈</h1>"
     img = Image.open('pandai_logo2.png')
-    st.image(img, width=500)
+    left_co, lc_co, lcc_co, cent_co, rcc_co, rc_co, last_co = st.columns(7)
+    with lc_co:
+        st.image(img, width=500)
     
 
     st.markdown(title_html, unsafe_allow_html=True)
@@ -145,18 +145,16 @@ if authenticate_user():
         st.page_link("🏠Homepage.py")
 
     if selected == "Model & Portfolio":
-        st.page_link("pages/1_📂Model and Portfolio.py")
+        st.switch_page("pages/1_📂Model and Portfolio.py")
 
     if selected == "Stock Search":
-        st.page_link("pages/2_🔍Stock Search.py")
+        st.switch_page("pages/2_🔍Stock Search.py")
 
     if selected == "Calendar":
-        st.page_link("pages/3_📅Calendar.py")
+        st.switch_page("pages/3_📅Calendar.py")
 
     if selected == "About Us":
-        st.page_link("pages/4_👤About Us.py")
-
-
+        st.switch_page("pages/4_👤About Us.py")
 
 
     st.markdown("<hr style='border-top: 2px solid green;'>", unsafe_allow_html=True)
@@ -164,7 +162,6 @@ if authenticate_user():
     st.write("Welcome to PandAI! Your virtual stock prediction  web application. Are you new to the stock market? Do you find yourself lost in the stocks? We here at PandAI have analyzed massive amounts of stock data in order to help out beginners like you. Simply press the 'Get Started' button below to find out how to save some big time money!")
     #Get Started Button
     result = st.button("Get Started!")
-
 
 
 

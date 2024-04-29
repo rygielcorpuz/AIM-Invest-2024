@@ -8,6 +8,7 @@ import plotly.express as px
 import json # for graph plotting in website
 import nltk # NLTK VADER for sentiment analysis
 import yfinance as yf 
+from fireworks.client import Fireworks
 import webbrowser
 import base64
 import numpy as np
@@ -20,6 +21,14 @@ from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from prophet import Prophet
 from prophet.plot import plot_plotly
 from plotly import graph_objs as go #plotly is an interactive graph
+from datetime import datetime, timedelta
+
+#tab name for fun
+st.set_page_config(
+    page_title="PandAI",
+    page_icon=":bamboo:",
+    initial_sidebar_state="collapsed"
+)
 
 #for the background
 def blur_image(image, radius):
@@ -155,10 +164,35 @@ if run:
     # turn headlines into csv
     df.drop(['neg', 'neu', 'pos', 'compound'], axis=1, inplace=True)
     df.to_csv("headlines.csv", index=False)
+    df = pd.read_csv("headlines.csv")
+
+
+    text_data = df['headline']
+
+
+    concatenated_text = "\n".join(text_data)
+
+
+    concatenated_text = concatenated_text.lower()
+
+    api_key = "AgVn8csdNAt5zUogJAn6CFa6PMUFRInohxjDaoqwsmqdzMPP"
+
+
+    client = Fireworks(api_key="AgVn8csdNAt5zUogJAn6CFa6PMUFRInohxjDaoqwsmqdzMPP")
+    response = client.chat.completions.create(
+      model="accounts/fireworks/models/mixtral-8x7b-instruct",
+      messages=[{
+        "role": "user",
+        "content": "analyze the headlines summary and provide insights that would be relevant to a beginner with less experience with stocks",
+        "content": concatenated_text,
+
+      }],
+    )
+    st.write(response.choices[0].message.content)
 
     #Function: DISPLAYS SENTIMENT GRAPHS VISUALLY 
     np.random.seed(0)
-    dates = pd.date_range('2024-01-01', periods=100, freq='H')
+    dates = pd.date_range((datetime.today() - timedelta(days=5)).strftime("%Y-%m-%d"), periods=100, freq='H')
     df = pd.DataFrame({
         'date': dates,
         'ticker': ticker,
@@ -166,7 +200,7 @@ if run:
     })
 
     def plot_hourly_sentiment(df, ticker):
-        # Group by date and ticker columns from scored_news and calculate the mean
+        # Group by date and ticker columns from df and calculate the mean
         mean_scores = df.groupby(['date', 'ticker']).mean()
 
         # Plot a bar chart with plotly
@@ -174,18 +208,38 @@ if run:
         fig.update_xaxes(title_text='Hourly Sentiment')  # Update x-axis label
         fig.update_yaxes(title_text='Sentiment Score')  # Update y-axis label
         return fig
-            
-    #this one isn't loading correctly
+
     def plot_daily_sentiment(df, ticker):
-        # Group by date and ticker columns from scored_news and calculate the mean
-        mean_scores = df.groupby(['date', 'ticker']).mean()
-        #mean_scores = df.resample('D', on='date').mean()
+        # Group by date and ticker columns from df and calculate the mean
+        mean_scores = df.groupby(['ticker', pd.Grouper(key='date', freq='D')]).mean().reset_index()
 
         # Plot a bar chart with plotly
-        fig = px.bar(mean_scores, x=mean_scores.index.get_level_values(0), y='sentiment_score', title=ticker + ' Daily Sentiment')
-        fig.update_xaxes(title_text='Daily Sentiment')  # Update x-axis label
+        fig = px.bar(mean_scores, x='date', y='sentiment_score', title=ticker + ' Daily Sentiment')
+        fig.update_xaxes(title_text='Date')  # Update x-axis label
         fig.update_yaxes(title_text='Sentiment Score')  # Update y-axis label
         return fig
+
+    # def plot_hourly_sentiment(df, ticker):
+    #     # Group by date and ticker columns from scored_news and calculate the mean
+    #     mean_scores = df.groupby(['date', 'ticker']).mean()
+
+    #     # Plot a bar chart with plotly
+    #     fig = px.bar(mean_scores, x=mean_scores.index.get_level_values(0), y='sentiment_score', title=ticker + ' Hourly Sentiment')
+    #     fig.update_xaxes(title_text='Hourly Sentiment')  # Update x-axis label
+    #     fig.update_yaxes(title_text='Sentiment Score')  # Update y-axis label
+    #     return fig
+            
+    # #this one isn't loading correctly
+    # def plot_daily_sentiment(df, ticker):
+    #     # Group by date and ticker columns from scored_news and calculate the mean
+    #     mean_scores = df.groupby(['date', 'ticker']).mean()
+    #     #mean_scores = df.resample('D', on='date').mean()
+
+    #     # Plot a bar chart with plotly
+    #     fig = px.bar(mean_scores, x=mean_scores.index.get_level_values(0), y='sentiment_score', title=ticker + ' Daily Sentiment')
+    #     fig.update_xaxes(title_text='Daily Sentiment')  # Update x-axis label
+    #     fig.update_yaxes(title_text='Sentiment Score')  # Update y-axis label
+    #     return fig
 
 
     # Call the functions
