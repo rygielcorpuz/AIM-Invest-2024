@@ -91,12 +91,12 @@ for event in events:
         calendar_event = {}
         calendar_event['title'] = event['symbol'] + " " + emoji_dict.get(event['symbol'], "") + "💵"
         #calendar_event['symbol'] = event['date']
-        if event['date'] == 'Before Market Open': # before market opens, add sunrise symbol
-            calendar_event['date'] = '🌅' + calendar_event['date']
-        elif event['date'] == '': # after market closes, add sunset symbol
-            calendar_event['date'] = '🌇'   + calendar_event['date']     
+        if event['time'] == 'bmo': # before market opens, add sunrise symbol
+            calendar_event['title'] = '🌅' + calendar_event['date']
+        elif event['time'] == 'amc': # after market closes, add sunset symbol
+            calendar_event['title'] = '🌇'   + calendar_event['date']     
         else:
-            calendar_event['date'] = event['date']
+            calendar_event['start'] = event['date']
         calendar_events.append(calendar_event)
 
 st.header("Main Content")
