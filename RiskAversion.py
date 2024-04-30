@@ -58,23 +58,23 @@ def main():
             elif response.startswith("c)"):
                 multiple_choice_total_score += 2
             elif response.startswith("d)"):
-                multiple_choice_total_score += 1
+                multiple_choice_total_score += 0
         elif i == 3:
             response = st.radio(question, choices_q4)
             # Calculate multiple choice score for question 4
             if response.startswith("a)"):
-                multiple_choice_total_score += 3
+                multiple_choice_total_score += 4
             elif response.startswith("b)"):
-                multiple_choice_total_score += 2
+                multiple_choice_total_score += 3
             elif response.startswith("c)"):
-                multiple_choice_total_score += 1
+                multiple_choice_total_score += 2
             elif response.startswith("d)"):
                 multiple_choice_total_score += 0
         elif i == 4:
             response = st.radio(question, choices_q5)
             # Calculate multiple choice score for question 5
             if response.startswith("a)"):
-                multiple_choice_total_score += 1
+                multiple_choice_total_score += 2
             elif response.startswith("b)"):
                 multiple_choice_total_score += 0
         user_responses.append(response)
@@ -84,7 +84,7 @@ def main():
         st.write(f"Question {i+1}: {response}")
     
     risk_score = calculate_total_score(scale_total_score, multiple_choice_total_score)
-    st.write(f"Total score of risk aversion: {risk_score}")
+    st.write(f"Total score of risk aversion: {risk_score/4}")
     
 if __name__ == "__main__":
     main()

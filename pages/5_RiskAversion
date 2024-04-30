@@ -84,7 +84,7 @@ def main():
         st.write(f"Question {i+1}: {response}")
     
     risk_score = calculate_total_score(scale_total_score, multiple_choice_total_score)
-    st.write(f"Total score of risk aversion: {risk_score}")
+    st.write(f"Total score of risk aversion: {risk_score/4}")
     
 if __name__ == "__main__":
     main()
