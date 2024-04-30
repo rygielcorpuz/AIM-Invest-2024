@@ -174,7 +174,7 @@ if authenticate_user():
     with st.expander("🔍 Stock Search"):
         st.write("Enter the ticker for your desired company. We will sift through the most recent news articles relating to its stocks, summarize them, then give each a score based on its tone.")
     with st.expander("📅 Calendar"):
-        st.write("idk ask sammy")
+        st.write("The calendar shows the user when the market opens and closes and they can type in whatever ticker to look up the earnings call dates")
 
 
     def autoplay_audio(file_path: str):
