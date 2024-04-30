@@ -75,7 +75,7 @@ with st.sidebar:
     tickers = ['GOOG', 'META', 'TSLA', 'NET', 'V', 'MA', 'BA', 'C']
     
     # For users to enter tickers of interest
-    tickers_string = st.text_area('Enter tickers separated by commas', value = '').upper()
+    tickers_string = st.text_area('Enter tickers separated by commas', value = 'TSLA, MSFT, APPL, GOOG, META, AMZN, NVDA, AMD, JPM, V, PYPL, XOM, MCD, RDDT, DELL, HPQ, SMCI, INTC, ').upper()
     st.write("")
     st.write('')
 
