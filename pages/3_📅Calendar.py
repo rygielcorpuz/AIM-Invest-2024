@@ -40,7 +40,7 @@ def get_jsonparsed_data(url):
     return json.loads(data)
 
 # Get FMP API stored as environment variable
-apiKey = '1MUY2W2FT18KJ9CP'
+apiKey = ''
 
 # Financialmodelingprep (FMP) api base url
 base_url = "https://financialmodelingprep.com/api/v3/"
@@ -128,22 +128,3 @@ custom_css="""
   opacity: 0.3; /* Adjust opacity for better readability */
 }
 """
-
-
-calendar = calendar(events=calendar_events, options=calendar_options, custom_css=custom_css)
-
-#for the background
-def blur_image(image, radius):
-    blurred_image = image.filter(ImageFilter.GaussianBlur(radius))
-    return blurred_image
-    
-page_bg_img = """
-<style>
-[data-testid="stAppViewContainer"] {
-    background-image: url("https://img.freepik.com/free-photo/bamboo-leaf-elements-green_53876-95290.jpg");
-    background-size: cover;
-}
-</style>
-"""
-
-st.markdown(page_bg_img, unsafe_allow_html=True)
