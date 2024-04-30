@@ -8,6 +8,7 @@ from dateutil.relativedelta import relativedelta
 # For parsing data from API from JSON to a Python Dictionary
 
 #tab name for fun
+
 st.set_page_config(
     page_title="PandAI",
     page_icon=":bamboo:",
@@ -40,7 +41,7 @@ def get_jsonparsed_data(url):
     return json.loads(data)
 
 # Get FMP API stored as environment variable
-apiKey = ''
+apiKey = 'bdmgSco6IiUYAwzHm2leis9Hjrmpznkr'
 
 # Financialmodelingprep (FMP) api base url
 base_url = "https://financialmodelingprep.com/api/v3/"
@@ -65,6 +66,7 @@ def get_earnings_dates(url):
     return events
     
 events = get_earnings_dates(url)
+
 
 
 with st.sidebar:
@@ -128,3 +130,5 @@ custom_css="""
   opacity: 0.3; /* Adjust opacity for better readability */
 }
 """
+
+calendar(calendar_events, options=calendar_options)
