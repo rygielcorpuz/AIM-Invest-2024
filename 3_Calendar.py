@@ -7,40 +7,13 @@ from streamlit_calendar import calendar
 from dateutil.relativedelta import relativedelta
 # For parsing data from API from JSON to a Python Dictionary
 
-#tab name for fun
-st.set_page_config(
-    page_title="PandAI",
-    page_icon=":bamboo:",
-    initial_sidebar_state="collapsed"
-)
-
-#for the background
-def blur_image(image, radius):
-    blurred_image = image.filter(ImageFilter.GaussianBlur(radius))
-    return blurred_image
-    
-page_bg_img = """
-<style>
-[data-testid="stAppViewContainer"] {
-    background-image: url("https://img.freepik.com/free-photo/bamboo-leaf-elements-green_53876-95290.jpg");
-    background-size: cover;
-}
-</style>
-"""
-
-st.markdown(page_bg_img, unsafe_allow_html=True)
-
-title_html = "<h1 style='text-align: center; font-family: Times New Roman;'>Calendar</h1>"
-
-st.markdown(title_html, unsafe_allow_html=True)
-
 def get_jsonparsed_data(url):
     response = urlopen(url)
     data = response.read().decode("utf-8")
     return json.loads(data)
 
 # Get FMP API stored as environment variable
-apiKey = ''
+apiKey = ''   
 
 # Financialmodelingprep (FMP) api base url
 base_url = "https://financialmodelingprep.com/api/v3/"
@@ -71,9 +44,10 @@ with st.sidebar:
     st.title("Stock Predictor")
     st.header("Earnings Calendar")
     tickers = ['GOOG', 'META', 'TSLA', 'NET', 'V', 'MA', 'BA', 'C']
-    
+
+
     # For users to enter tickers of interest
-    tickers_string = st.text_area('Enter tickers separated by commas', value = '').upper()
+    tickers_string = st.text_area('Enter tickers separated by commas', value = 'TSLA, MSFT, GOOG, MSFT, C, NVDA, META, MA, APPL, DELL').upper()
     st.write("")
     st.write('')
 
@@ -98,12 +72,12 @@ for event in events:
         calendar_event = {}
         calendar_event['title'] = event['symbol'] + " " + emoji_dict.get(event['symbol'], "") + "💵"
         #calendar_event['symbol'] = event['date']
-        if event['time'] == 'bmo': # before market opens, add sunrise symbol
-            calendar_event['title'] = '🌅' + calendar_event['date']
-        elif event['time'] == 'amc': # after market closes, add sunset symbol
-            calendar_event['title'] = '🌇'   + calendar_event['date']     
+        if event['date'] == 'Before Market Open': # before market opens, add sunrise symbol
+            calendar_event['date'] = '🌅' + calendar_event['date']
+        elif event['date'] == '': # after market closes, add sunset symbol
+            calendar_event['date'] = '🌇'   + calendar_event['date']     
         else:
-            calendar_event['start'] = event['date']
+            calendar_event['date'] = event['date']
         calendar_events.append(calendar_event)
 
 st.header("Main Content")
@@ -123,27 +97,8 @@ calendar_options = {
     
 
 custom_css="""
-.fc-day:after {
-  background-color: lightblue; /* Adjust the color as needed */
-  opacity: 0.3; /* Adjust opacity for better readability */
-}
+
 """
 
 
 calendar = calendar(events=calendar_events, options=calendar_options, custom_css=custom_css)
-
-#for the background
-def blur_image(image, radius):
-    blurred_image = image.filter(ImageFilter.GaussianBlur(radius))
-    return blurred_image
-    
-page_bg_img = """
-<style>
-[data-testid="stAppViewContainer"] {
-    background-image: url("https://img.freepik.com/free-photo/bamboo-leaf-elements-green_53876-95290.jpg");
-    background-size: cover;
-}
-</style>
-"""
-
-st.markdown(page_bg_img, unsafe_allow_html=True)

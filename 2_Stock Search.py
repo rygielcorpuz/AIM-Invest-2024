@@ -1,4 +1,3 @@
-
 import streamlit as st
 import pandas as pd #helps w/ data manipulation
 import re
@@ -8,7 +7,6 @@ import plotly.express as px
 import json # for graph plotting in website
 import nltk # NLTK VADER for sentiment analysis
 import yfinance as yf 
-from fireworks.client import Fireworks
 import webbrowser
 import base64
 import numpy as np
@@ -21,30 +19,6 @@ from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from prophet import Prophet
 from prophet.plot import plot_plotly
 from plotly import graph_objs as go #plotly is an interactive graph
-from datetime import datetime, timedelta
-
-#tab name for fun
-st.set_page_config(
-    page_title="PandAI",
-    page_icon=":bamboo:",
-    initial_sidebar_state="collapsed"
-)
-
-#for the background
-def blur_image(image, radius):
-    blurred_image = image.filter(ImageFilter.GaussianBlur(radius))
-    return blurred_image
-        
-page_bg_img = """
-<style>
-[data-testid="stAppViewContainer"] {
-    background-image: url("https://img.freepik.com/free-photo/bamboo-leaf-elements-green_53876-95290.jpg");
-    background-size: cover;
-}
-</style>
-"""
-
-st.markdown(page_bg_img, unsafe_allow_html=True)
 
 title_html = "<h1 style='text-align: center; font-family: Times New Roman;'>Stock Search</h1>"
 st.markdown(title_html, unsafe_allow_html=True)
@@ -67,8 +41,43 @@ if run:
     data = load_data(ticker)
     data_load_state.text("Loading data...done!")
 
+            #not sure if we need this
+            # st.subheader('Raw data')
+            # st.write(data.tail())
 
-    #Function: GET NEWS TICKER  
+            # # Plot raw data
+            # def plot_raw_data():
+            #     fig = go.Figure()
+            #     fig.add_trace(go.Scatter(x=data['Date'], y=data['Open'], name="stock_open"))
+            #     fig.add_trace(go.Scatter(x=data['Date'], y=data['Close'], name="stock_close"))
+            #     fig.layout.update(title_text='Time Series data with Rangeslider', xaxis_rangeslider_visible=True)
+            #     st.plotly_chart(fig)
+
+            # plot_raw_data()
+
+            # # Predict forecast with Prophet.
+            # df_train = data[['Date','Close']]
+            # df_train = df_train.rename(columns={"Date": "ds", "Close": "y"})
+
+            # m = Prophet()
+            # m.fit(df_train)
+            # future = m.make_future_dataframe(periods=period)
+            # forecast = m.predict(future)
+
+            # # Show and plot forecast
+            # st.subheader('Forecast data')
+            # st.write(forecast.tail())
+                
+            # st.write(f'Forecast plot for {n_years} years')
+            # fig1 = plot_plotly(m, forecast)
+            # st.plotly_chart(fig1)
+
+            # st.write("Forecast components")
+            # fig2 = m.plot_components(forecast)
+            # st.write(fig2)
+
+
+            #Function: GET NEWS TICKER  
     def get_news(ticker):
         finviz_url = "https://finviz.com/quote.ashx?t="
         url = finviz_url + ticker
@@ -85,7 +94,6 @@ if run:
     def parse_news(news_table):
         # Parse news data from HTML table into df
         arrayList = []
-        count = 0
 
         for x in news_table.find_all('tr'):
         # Parameters:
@@ -102,7 +110,7 @@ if run:
                 else: #this would be anything greater than one
                     date = td[0] #date is first on list [0], then consecutively time is [1]
                     time = td[1]
-                arrayList.append([date, time, headline]) #putting an date, time, and headline arrayList inside of here
+                    arrayList.append([date, time, headline]) #putting an date, time, and headline arrayList inside of here
                 #making a list of column names
 
                 #set date w first index of td
@@ -114,85 +122,58 @@ if run:
 
             #replacing 'today' with date, make sure not to use 'dataFrame' bc pandas doesnt know which function ur calling
             df['date'] = df['date'].replace('Today', datetime.today().strftime('%Y-%m-%d')) #this is getting the world time & formatting it
-            df['datetime'] = pd.to_datetime(df['date'] + ' ' + df['time'])
+            df['datetime'] = pd.to_datetime(df['date'] + ' ' + df['time'], format='mixed')
             #df['datetime'] = pd.to_datetime(df['date'] + ' ' + df['time'], infer_datetime_format=True)
             #df['datetime'] = pd.to_datetime(df['date'] + ' ' + df['time'])
 
                 # Returns:
                 #   parsed_news_df (df): Parsed news data with columns: date, time, headline, datetime
         return df
-    
+    sid = SentimentIntensityAnalyzer()
 
+
+    #Function: SCORES ARTICLES FOR SENTIMENT ANALYSIS
     def score_news(parsed_news_df):
-        # instantiate sentiment intensity analyzer
-        sia = SentimentIntensityAnalyzer()
-
+            
         # iterate through parsed_news_df headlines and compute polarity scores
-        scores = []
+        scores = [] #creates an empty list to put the sentiment scores in
         for headline in parsed_news_df['headline']:
-            score = sia.polarity_scores(headline)
+            score = sid.polarity_scores(headline) #computes scores
             scores.append(score)
 
         # convert scores to DataFrame
         scores_df = pd.DataFrame(scores)
 
-        # join data frames
-        parsed_scored = parsed_news_df.join(scores_df)
+        # appending data frames
+        parsed_scored_news = parsed_news_df.join(scores_df) #adds scores to og dataframe
 
-        # set index of parsed_scored to 'datetime' column
-        parsed_scored.set_index('datetime', inplace=True)
+        # Drop unnecessary columns
+        parsed_scored_news.drop(['date', 'time'], axis=1, inplace=True)
+        #parsed_scored_news.drop(['date', 'time', 'headline'], axis=1, inplace=True)
 
-        # drop the 'date' and 'time' columns
-        parsed_scored.drop(['date', 'time'], axis=1, inplace=True)
+        # Rename sentiment score column
+        parsed_scored_news.rename(columns={'sentiment': 'sentiment_score'}, inplace=True)
 
-        # rename the 'compound' column to 'sentiment_score'
-        parsed_scored.rename(columns={'compund': 'sentiment_score'}, inplace=True)
+        # Set datetime column as index
+        parsed_scored_news.set_index('datetime', inplace=True)
 
-        return parsed_scored
+        return parsed_scored_news
 
-    # Prints the data frame
     tableNews = get_news(ticker)
     print(tableNews)
     parseNews = parse_news(tableNews)
     print(parseNews)
-    parseNews.to_csv('temp2.csv', index=False)
     df = score_news(parseNews)
     print(df)
-    df.to_csv('temp.csv', index=False)
     st.dataframe(df)
 
     # turn headlines into csv
     df.drop(['neg', 'neu', 'pos', 'compound'], axis=1, inplace=True)
     df.to_csv("headlines.csv", index=False)
-    df = pd.read_csv("headlines.csv")
 
-
-    text_data = df['headline']
-
-
-    concatenated_text = "\n".join(text_data)
-
-
-    concatenated_text = concatenated_text.lower()
-
-    api_key = "AgVn8csdNAt5zUogJAn6CFa6PMUFRInohxjDaoqwsmqdzMPP"
-
-
-    client = Fireworks(api_key="AgVn8csdNAt5zUogJAn6CFa6PMUFRInohxjDaoqwsmqdzMPP")
-    response = client.chat.completions.create(
-      model="accounts/fireworks/models/mixtral-8x7b-instruct",
-      messages=[{
-        "role": "user",
-        "content": "analyze the headlines summary and provide insights that would be relevant to a beginner with less experience with stocks",
-        "content": concatenated_text,
-
-      }],
-    )
-    st.write(response.choices[0].message.content)
-
-    #Function: DISPLAYS SENTIMENT GRAPHS VISUALLY 
+    #Function: DISPLAYS SENTIMENT GRAPHS VISUALLY
     np.random.seed(0)
-    dates = pd.date_range((datetime.today() - timedelta(days=5)).strftime("%Y-%m-%d"), periods=100, freq='H')
+    dates = pd.date_range('2022-01-01', periods=100, freq='H')
     df = pd.DataFrame({
         'date': dates,
         'ticker': ticker,
@@ -200,46 +181,21 @@ if run:
     })
 
     def plot_hourly_sentiment(df, ticker):
-        # Group by date and ticker columns from df and calculate the mean
+        # Group by date and ticker columns from scored_news and calculate the mean
         mean_scores = df.groupby(['date', 'ticker']).mean()
 
         # Plot a bar chart with plotly
         fig = px.bar(mean_scores, x=mean_scores.index.get_level_values(0), y='sentiment_score', title=ticker + ' Hourly Sentiment')
-        fig.update_xaxes(title_text='Hourly Sentiment')  # Update x-axis label
-        fig.update_yaxes(title_text='Sentiment Score')  # Update y-axis label
         return fig
-
+            
+    #this one isn't loading correctly
     def plot_daily_sentiment(df, ticker):
-        # Group by date and ticker columns from df and calculate the mean
-        mean_scores = df.groupby(['ticker', pd.Grouper(key='date', freq='D')]).mean().reset_index()
+        # Group by date and ticker columns from scored_news and calculate the mean
+        mean_scores = df.groupby(['date', 'ticker']).mean()
 
         # Plot a bar chart with plotly
-        fig = px.bar(mean_scores, x='date', y='sentiment_score', title=ticker + ' Daily Sentiment')
-        fig.update_xaxes(title_text='Date')  # Update x-axis label
-        fig.update_yaxes(title_text='Sentiment Score')  # Update y-axis label
+        fig = px.bar(mean_scores, x=mean_scores.index.get_level_values(0), y='sentiment_score', title=ticker + ' Daily Sentiment')
         return fig
-
-    # def plot_hourly_sentiment(df, ticker):
-    #     # Group by date and ticker columns from scored_news and calculate the mean
-    #     mean_scores = df.groupby(['date', 'ticker']).mean()
-
-    #     # Plot a bar chart with plotly
-    #     fig = px.bar(mean_scores, x=mean_scores.index.get_level_values(0), y='sentiment_score', title=ticker + ' Hourly Sentiment')
-    #     fig.update_xaxes(title_text='Hourly Sentiment')  # Update x-axis label
-    #     fig.update_yaxes(title_text='Sentiment Score')  # Update y-axis label
-    #     return fig
-            
-    # #this one isn't loading correctly
-    # def plot_daily_sentiment(df, ticker):
-    #     # Group by date and ticker columns from scored_news and calculate the mean
-    #     mean_scores = df.groupby(['date', 'ticker']).mean()
-    #     #mean_scores = df.resample('D', on='date').mean()
-
-    #     # Plot a bar chart with plotly
-    #     fig = px.bar(mean_scores, x=mean_scores.index.get_level_values(0), y='sentiment_score', title=ticker + ' Daily Sentiment')
-    #     fig.update_xaxes(title_text='Daily Sentiment')  # Update x-axis label
-    #     fig.update_yaxes(title_text='Sentiment Score')  # Update y-axis label
-    #     return fig
 
 
     # Call the functions
@@ -247,9 +203,5 @@ if run:
     daily_fig = plot_daily_sentiment(df, ticker)
 
     # Display the figures
-    st.plotly_chart(plot_hourly_sentiment(df, ticker))
-    st.plotly_chart(plot_daily_sentiment(df, ticker))
-    # hourly_fig.show()
-    # daily_fig.show()
-
-    
+    hourly_fig.show()
+    daily_fig.show()

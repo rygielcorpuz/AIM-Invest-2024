@@ -10,6 +10,8 @@ import yfinance as yf
 import webbrowser
 import base64
 import numpy as np
+import json
+import requests
 nltk.downloader.download('vader_lexicon')
 from datetime import datetime
 from streamlit_option_menu import option_menu
@@ -19,33 +21,11 @@ from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from prophet import Prophet
 from prophet.plot import plot_plotly
 from plotly import graph_objs as go #plotly is an interactive graph
+from streamlit_lottie import st_lottie
 
-#tab name for fun
-st.set_page_config(
-    page_title="PandAI",
-    page_icon=":bamboo:",
-    initial_sidebar_state="collapsed"
-)
 
 title_html = "<h1 style='text-align: center; font-family: Times New Roman;'>Model/Portfolio</h1>"
 st.markdown(title_html, unsafe_allow_html=True)
-
-#for the background
-def blur_image(image, radius):
-    blurred_image = image.filter(ImageFilter.GaussianBlur(radius))
-    return blurred_image
-    
-page_bg_img = """
-<style>
-[data-testid="stAppViewContainer"] {
-    background-image: url("https://img.freepik.com/free-photo/bamboo-leaf-elements-green_53876-95290.jpg");
-    background-size: cover;
-}
-</style>
-"""
-
-st.markdown(page_bg_img, unsafe_allow_html=True)
-
 
 def autoplay_audio(file_path: str):
         with open(file_path, "rb") as f:
@@ -60,6 +40,29 @@ def autoplay_audio(file_path: str):
                 md,
                 unsafe_allow_html=True,
             )
+
+# def load_lottieurl(url: str):
+#     r = requests.get(url)
+#     if r.status_code != 200:
+#         return None
+#     return r.json()
+
+# lottie_url_breathe = "https://app.lottiefiles.com/share/33281adf-24e7-43e9-b203-1651abfba346"
+# lottie_breathe = load_lottieurl(lottie_url_breathe)
+# st_lottie(lottie_breathe, key="hello")
+
+# st_lottie(
+#     lottie_breathe,
+#     speed=.5,
+#     reverse=False,
+#     loop=True,
+#     quality="medium",
+#     renderer="svg",
+#     height=None,
+#     width=None,
+#     key=None,
+# )
+# st_lottie(lottie_breathe, key="hello")
 
 file_ = open("breathe.gif", "rb")
 contents = file_.read()
