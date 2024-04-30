@@ -168,13 +168,13 @@ result = st.button("Get Started!")
 if result:  # ideally opens up four new pages (3 features + about us)
     st.switch_page("pages/1_📂Model and Portfolio.py")
 
-st.write("Confused? Learn more here about each feature!")
-with st.expander("📂 Model and Portfolio"):
-    st.write("After answering some questions about your investment goals, we will give you a score based on whether or not the article was positive and generate a portfolio of stocks that align with your best interests.")
-with st.expander("🔍 Stock Search"):
-    st.write("Enter the ticker for your desired company. We will sift through the most recent news articles relating to its stocks, summarize them, then give each a score based on its tone.")
-with st.expander("📅 Calendar"):
-    st.write("idk ask sammy")
+    st.write("Confused? Learn more here about each feature!")
+    with st.expander("📂 Model and Portfolio"):
+        st.write("After answering some questions about your investment goals, we will give you a score based on whether or not the article was positive and generate a portfolio of stocks that align with your best interests.")
+    with st.expander("🔍 Stock Search"):
+        st.write("Enter the ticker for your desired company. We will sift through the most recent news articles relating to its stocks, summarize them, then give each a score based on its tone.")
+    with st.expander("📅 Calendar"):
+        st.write("The calendar shows the user when the market opens and closes and they can type in whatever ticker to look up the earnings call dates")
 
 
 def autoplay_audio(file_path: str):
