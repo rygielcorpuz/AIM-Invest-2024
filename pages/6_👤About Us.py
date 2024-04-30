@@ -45,5 +45,14 @@ st.markdown(title_html, unsafe_allow_html=True)
 # side_bg = 'treegif.webp'
 # sidebar_bg(side_bg)
 
-st.write("💪R Y G I E L💪")
-
+st.write("Rygiel Corpuz: Our mentor!!")
+left_co, cent_co, righ_co = st.columns(3)
+with left_co:
+    st.write("FRONTEND")
+    st.write("Laura Sales")
+    st.write("Kaia Sonoda")
+with righ_co:
+    st.write("BACKEND")
+    st.write("Oudom Pach")
+    st.write("Sammy Vrla")
+    st.write("Aman Vishwanathan")
