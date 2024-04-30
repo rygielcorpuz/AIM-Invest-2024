@@ -86,12 +86,8 @@ def calculate_total_score(scale_score, multiple_choice_score):
     risk_score = scale_score + multiple_choice_score
     return risk_score
 
-def main():
-    st.markdown("***")
-    st.markdown("***")
-    title_html = "<h1 style='text-align: center; font-family: Times New Roman;'>Risk Aversion Questionnaire</h1>"
-    st.markdown(title_html, unsafe_allow_html=True)
-    #st.title("Risk Aversion Questionnaire")
+def score():
+    st.title("Risk Aversion Questionnaire")
     
     # Questions
     questions = [
@@ -143,23 +139,23 @@ def main():
             elif response.startswith("c)"):
                 multiple_choice_total_score += 2
             elif response.startswith("d)"):
-                multiple_choice_total_score += 1
+                multiple_choice_total_score += 0
         elif i == 3:
             response = st.radio(question, choices_q4)
             # Calculate multiple choice score for question 4
             if response.startswith("a)"):
-                multiple_choice_total_score += 3
+                multiple_choice_total_score += 4
             elif response.startswith("b)"):
-                multiple_choice_total_score += 2
+                multiple_choice_total_score += 3
             elif response.startswith("c)"):
-                multiple_choice_total_score += 1
+                multiple_choice_total_score += 2
             elif response.startswith("d)"):
                 multiple_choice_total_score += 0
         elif i == 4:
             response = st.radio(question, choices_q5)
             # Calculate multiple choice score for question 5
             if response.startswith("a)"):
-                multiple_choice_total_score += 1
+                multiple_choice_total_score += 2
             elif response.startswith("b)"):
                 multiple_choice_total_score += 0
         user_responses.append(response)
@@ -170,6 +166,72 @@ def main():
     
     risk_score = calculate_total_score(scale_total_score, multiple_choice_total_score)
     st.write(f"Total score of risk aversion: {risk_score/4}")
-    
-if __name__ == "__main__":
-    main()
+    return risk_score/4
+
+
+import streamlit as st
+import pandas as pd
+import plotly.express as px
+
+# Read the CSV file into a DataFrame
+df_csv = pd.read_csv('Risk_Score1.csv')
+
+# Define your asset classes and their corresponding allocations
+asset_classes = [
+    'Communication Services', 'Consumer Discretionary', 'Consumer Staples',
+    'Energy', 'Financials', 'Health Care', 'Industrials', 'Information Technology',
+    'Materials', 'Real Estate', 'Utilities'
+]
+
+
+# Set the risk score for testing
+number = score()
+
+#round to the nearest score in csv
+score_in_csv=[0, 1.5, 2.5, 3, 4.5, 5]
+
+
+def round_to_nearest_in_list(number, score_in_csv):
+  # Sort the list of numbers in ascending order.
+  score_in_csv.sort()
+
+  # Find the index of the closest number in the list to the given number.
+  closest_number_index = 0
+  for i, list_number in enumerate(score_in_csv):
+    if abs(number - list_number) < abs(number - score_in_csv[closest_number_index]):
+      closest_number_index = i
+
+  # Return the closest number in the list.
+  return score_in_csv[closest_number_index]
+
+risk_score = round_to_nearest_in_list(number, score_in_csv)
+
+# Find the row corresponding to the selected risk score
+row = df_csv[df_csv['Risk Score'] == risk_score]
+
+# Extract columns C to M (index 2 to 13) from the selected row
+selected_data = row.iloc[:, 2:14].values.tolist()[0]
+
+# Replace allocations with the selected data
+allocations = selected_data
+
+# Filter out negative allocations and their corresponding asset classes
+positive_allocations = []
+positive_asset_classes = []
+negative_asset_classes = []
+
+for asset, alloc in zip(asset_classes, allocations):
+    if alloc >= 0:
+        positive_asset_classes.append(asset)
+        positive_allocations.append(alloc)
+
+# Create a DataFrame for positive allocations
+df = pd.DataFrame({'Asset Class': positive_asset_classes, 'Allocation': positive_allocations})
+
+# Plotting the pie chart for positive allocations
+fig = px.pie(df, values='Allocation', names='Asset Class', title='Portfolio Allocations (Positive Allocations Only)',
+             color_discrete_sequence=px.colors.qualitative.Set3)
+fig.update_traces(textposition='inside', textinfo='percent+label')
+
+# Display the plot using Streamlit
+st.plotly_chart(fig)

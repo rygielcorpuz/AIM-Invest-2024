@@ -19,7 +19,7 @@ st.set_page_config(
 def blur_image(image, radius):
     blurred_image = image.filter(ImageFilter.GaussianBlur(radius))
     return blurred_image
-    
+     
 page_bg_img = """
 <style>
 [data-testid="stAppViewContainer"] {
