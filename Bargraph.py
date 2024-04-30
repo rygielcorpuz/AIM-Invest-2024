@@ -1,5 +1,3 @@
-
-
 import streamlit as st
 from urllib.request import urlopen, Request
 from datetime import datetime
@@ -70,10 +68,7 @@ def parse_news(news_table):
     #   parsed_news_df (df): Parsed news data with columns: date, time, headline, datetime
     return df
 
-
-
-
- #Function: SCORES ARTICLES FOR SENTIMENT ANALYSIS
+#Function: SCORES ARTICLES FOR SENTIMENT ANALYSIS
 def score_news(parsed_news_df):
 
     # iterate through parsed_news_df headlines and compute polarity scores
@@ -99,7 +94,6 @@ def score_news(parsed_news_df):
     parsed_scored_news.set_index('datetime', inplace=True)
 
     return parsed_scored_news
-
 
 sid = SentimentIntensityAnalyzer()
 
@@ -151,7 +145,6 @@ def score_news(parsed_news_df):
 
   return parsed_scored
 
-
 tableNews = get_news(ticker)
 print(tableNews)
 parseNews = parse_news(tableNews)
@@ -160,35 +153,33 @@ df = score_news(parseNews)
 print(df)
 st.dataframe(df)
 
+
+
+#check tableData
+tableNews[0]
+
+
 import plotly.express as px
-import pandas as pd
-import numpy as np
-
-# Sample DataFrame
-np.random.seed(0)
-dates = pd.date_range('2024-01-01', periods=100, freq='H')
-df = pd.DataFrame({
-    'date': dates,
-    'ticker': 'AAPL',
-    'sentiment_score': np.random.rand(100)
-})
 
 
-def plot_hourly_sentiment(df, ticker):
-    # Group by date column from df and calculate the mean
-    mean_scores = df.groupby(df['date'].dt.hour)['sentiment_score'].mean()
+def plot_hourly_sentiment(parsed_and_scored_news, ticker):
+   
+    # Group by date and ticker columns from scored_news and calculate the mean
+    mean_scores = parsed_and_scored_news.resample('H').mean()
 
-    # Plot a bar chart with plotly
-    fig = px.bar(mean_scores, x=mean_scores.index, y='sentiment_score', title=ticker + ' Hourly Sentiment')
-    return fig
+    # Plot a bar chart with plotly 
+    fig = px.bar(mean_scores, x=mean_scores.index, y='sentiment_score', title = ticker + ' Hourly Sentiment Scores')
+    return fig # instead of using fig.show(), we return fig and turn it into a graphjson object for displaying in web page later
 
-def plot_daily_sentiment(df, ticker):
-    # Group by date column from df and calculate the mean
-    mean_scores = df.groupby(df['date'].dt.date)['sentiment_score'].mean()
+def plot_daily_sentiment(parsed_and_scored_news, ticker):
+   
+    # Group by date and ticker columns from scored_news and calculate the mean
+    mean_scores = parsed_and_scored_news.resample('D').mean()
 
     # Plot a bar chart with plotly
-    fig = px.bar(mean_scores, x=mean_scores.index, y='sentiment_score', title=ticker + ' Daily Sentiment')
-    return fig
+    fig = px.bar(mean_scores, x=mean_scores.index, y='sentiment_score', title = ticker + ' Daily Sentiment Scores')
+    return fig # instead of using fig.show(), we return fig and turn it into a graphjson object for displaying in web page later
+
 
 # Call the functions
 hourly_fig = plot_hourly_sentiment(df, ticker)
