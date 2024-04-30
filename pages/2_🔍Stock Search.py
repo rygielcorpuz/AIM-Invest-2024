@@ -11,6 +11,7 @@ import yfinance as yf
 import webbrowser
 import base64
 import numpy as np
+import time
 nltk.downloader.download('vader_lexicon')
 from datetime import datetime
 from streamlit_option_menu import option_menu
@@ -21,24 +22,9 @@ from prophet import Prophet
 from prophet.plot import plot_plotly
 from plotly import graph_objs as go #plotly is an interactive graph
 
-#for the background
-def blur_image(image, radius):
-    blurred_image = image.filter(ImageFilter.GaussianBlur(radius))
-    return blurred_image
-        
-page_bg_img = """
-<style>
-[data-testid="stAppViewContainer"] {
-    background-image: url("https://img.freepik.com/free-photo/bamboo-leaf-elements-green_53876-95290.jpg");
-    background-size: cover;
-}
-</style>
-"""
-
-st.markdown(page_bg_img, unsafe_allow_html=True)
-
 title_html = "<h1 style='text-align: center; font-family: Times New Roman;'>Stock Search</h1>"
 st.markdown(title_html, unsafe_allow_html=True)
+st.markdown("<hr style='border-top: 2px solid green;'>", unsafe_allow_html=True)
 
 
 START = "2015-01-01" #where data starts
@@ -198,4 +184,32 @@ if run:
     # hourly_fig.show()
     # daily_fig.show()
 
-    
+    #for the background
+    def blur_image(image, radius):
+        blurred_image = image.filter(ImageFilter.GaussianBlur(radius))
+        return blurred_image
+        
+    page_bg_img = """
+    <style>
+    [data-testid="stAppViewContainer"] {
+        background-image: url("https://img.freepik.com/free-photo/bamboo-leaf-elements-green_53876-95290.jpg");
+        background-size: cover;
+    }
+    </style>
+    """
+
+    st.markdown(page_bg_img, unsafe_allow_html=True)
+
+
+    #for comic stocks (progress bar)
+    st.write("this is for the comic stocks")
+    progress_text = "Operation in progress. Please wait."
+    my_bar = st.progress(0, text=progress_text)
+
+    for percent_complete in range(100):
+        time.sleep(0.01)
+        my_bar.progress(percent_complete + 1, text=progress_text)
+    time.sleep(1)
+    my_bar.empty()
+
+    st.button("Rerun")

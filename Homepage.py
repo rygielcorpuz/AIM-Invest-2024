@@ -19,15 +19,40 @@ from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from prophet import Prophet
 from prophet.plot import plot_plotly
 from plotly import graph_objs as go #plotly is an interactive graph
+from streamlit_extras.let_it_rain import rain 
+from streamlit_extras.colored_header import colored_header
+from PIL import Image
 
 #tab name for fun
 st.set_page_config(
     page_title="PandAI",
-    page_icon=":chart_with_upwards_trend:",
+    page_icon=":bamboo:",
     initial_sidebar_state="collapsed"
 )
-# st.markdown(
-#     """
+
+
+#for the background
+def blur_image(image, radius):
+    blurred_image = image.filter(ImageFilter.GaussianBlur(radius))
+    return blurred_image
+    
+page_bg_img = """
+<style>
+[data-testid="stAppViewContainer"] {
+    background-image: url("https://img.freepik.com/free-photo/bamboo-leaf-elements-green_53876-95290.jpg");
+    background-color: rgba(255, 255, 255, 0.38); 
+    background-blend-mode: lighten; 
+    background-size: cover;
+}
+</style>
+"""
+#https://img.freepik.com/free-photo/bamboo-leaf-elements-green_53876-95290.jpg
+#https://64.media.tumblr.com/5d1e299f7d47f1e9ec26ffe3e924d670/tumblr_pxw1tnbCqT1y7ei2ho2_500.png
+st.markdown(page_bg_img, unsafe_allow_html=True)
+
+
+
+
 # <style>
 #     [data-testid="collapsedControl"] {
 #         display: none
@@ -64,8 +89,6 @@ def authenticate_user():
         if st.session_state["authenticated"]:
             return True
 
-
-#everything in the website should is down below 
 if authenticate_user():
     def sidebar_bg(side_bg):
         side_bg_ext = 'gif'
@@ -85,27 +108,68 @@ if authenticate_user():
     START = "2015-01-01" #where data starts
     TODAY = datetime.today().strftime("%Y-%m-%d") #all the way to today
 
+    
+
     # DISPLAYING EVERYTHING
+    #title
     title_html = "<h1 style='text-align: center; font-family: Times New Roman;'>📉 🎋PandAI🎋 📈</h1>"
+    img = Image.open('pandai_logo2.png')
+    left_co, lc_co, lcc_co, cent_co, rcc_co, rc_co, last_co = st.columns(7)
+    with lc_co:
+        st.image(img, width=500)
+    
 
     st.markdown(title_html, unsafe_allow_html=True)
+    #for money to fall lolol
+    rain(
+        emoji="💸",
+        font_size=20,
+        falling_speed=15,
+        animation_length="infinite",
+    )
 
-    st.page_link("Homepage.py", label="Home", icon="🏠")
-    st.page_link("pages/1_Model and Portfolio.py", label="Model/Portfolio", icon="📂")
-    st.page_link("pages/2_Stock Search.py", label="Stock Search", icon="🔍")
-    st.page_link("pages/3_Calendar.py", label="Calendar", icon="📅")
-    st.page_link("pages/4_About Us.py", label="About Us", icon="👤")
+    selected = option_menu(
+        menu_title=None,
+        options=["Home", "Model & Portfolio", "Stock Search", "Calendar", "About Us"],
+        orientation="horizontal",
+    )
 
+    if selected == "Home":
+        st.page_link("Homepage.py")
+
+    if selected == "Model & Portfolio":
+        st.switch_page("pages/1_📂Model and Portfolio.py")
+
+    if selected == "Stock Search":
+        st.switch_page("pages/2_🔍Stock Search.py")
+
+    if selected == "Calendar":
+        st.switch_page("pages/3_📅Calendar.py")
+
+    if selected == "About Us":
+        st.switch_page("pages/4_👤About Us.py")
+
+
+    st.markdown("<hr style='border-top: 2px solid green;'>", unsafe_allow_html=True)
     #Description
-    st.write("Welcome to PandAI, your virtual stock prediction application. Are you new to the stock market? Do you find yourself lost in the stocks? We here at PandAI have analyzed massive amounts of stock data in order to help make beginners like you. Simply press the Get Started button below, and we will lead you to our features.")
-    st.write("1. Model and Portfolio: After answering some questions about your investment goals, we will give you a score and generate a portfolio of stocks that align with your best interests.")
-    st.write("2. Stock Search: Enter the ticker for your desired company. We will sift through the most recent news articles relating to its stocks, summarize them, then give each a score based on its tone.")
-    st.write("3. Calendar: idk ask sammy")
-
+    st.write("Welcome to PandAI! Your virtual stock prediction  web application. Are you new to the stock market? Do you find yourself lost in the stocks? We here at PandAI have analyzed massive amounts of stock data in order to help out beginners like you. Simply press the 'Get Started' button below to find out how to save some big time money!")
     #Get Started Button
-    result = st.button("Get Started") 
-    if result: #ideally opens up four new pages (3 features + about us)
-        st.switch_page("pages/1_Model and Portfolio.py")
+    result = st.button("Get Started!")
+
+
+
+
+    if result:  # ideally opens up four new pages (3 features + about us)
+        st.switch_page("pages/1_📂Model and Portfolio.py")
+
+    st.write("Confused? Learn more here about each feature!")
+    with st.expander("📂  Model and Portfolio"):
+        st.write("After answering some questions about your investment goals, we will give you a score based on whether or not the article was positive and generate a portfolio of stocks that align with your best interests.")
+    with st.expander("🔍  Stock Search"):
+        st.write("Enter the ticker for your desired company. We will sift through the most recent news articles relating to its stocks, summarize them, then give each a score based on its tone.")
+    with st.expander("📅  Calendar"):
+        st.write("idk ask sammy")
+
 
     def autoplay_audio(file_path: str):
         with open(file_path, "rb") as f:
@@ -122,8 +186,7 @@ if authenticate_user():
             )
     
     #future logo
-    from PIL import Image
-    img=Image.open('pandai_logo.png')
+    img=Image.open('pandai_logo2.png')
     left_co, cent_co,last_co = st.columns(3)
     with cent_co:
         st.image(img)
