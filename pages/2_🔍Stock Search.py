@@ -184,7 +184,7 @@ if run:
       messages=[{
         "role": "user",
         "content": "make a 200 word summary on the sentiment of these stock headlines in a single cohesive paragraph",
-        #"content": concatenated_text,
+        "content": concatenated_text,
 
       }],
     )
