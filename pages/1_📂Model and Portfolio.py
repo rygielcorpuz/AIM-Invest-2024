@@ -61,25 +61,29 @@ def autoplay_audio(file_path: str):
                 unsafe_allow_html=True,
             )
 
-file_ = open("breathe.gif", "rb")
+file_ = open("new_breathe.gif", "rb")
 contents = file_.read()
 data_url = base64.b64encode(contents).decode("utf-8")
 file_.close()
 
 
-l_co, lc_co, c_co, cc_co, ccc_co, c_co, r_co = st.columns(7)
-with c_co, cc_co:
+on_co, tw_co, th_co, fo_co, fi_co, si_co, se_co , ei_co, ni_co = st.columns(9)
+with fi_co:
     st.write("R E L A X")
 
+oon_co, ttw_co, tth_co, ffo_co, ffi_co, ssi_co, sse_co , eei_co, nni_co, tte_co, eel_co, ttw = st.columns(12)
+with ttw_co:
+    st.markdown(
+            f'<img src="data:image/gif;base64,{data_url}" alt="breathing gif">',
+            unsafe_allow_html=True,
+        )
     
 one_co, two_co, three_co, four_co, five_co, six_co, seven_co = st.columns(7)
 with three_co:
     autoplay_audio("natureMusic.mp3")
-with two_co:
-    st.markdown(
-        f'<img src="data:image/gif;base64,{data_url}" alt="cat gif">',
-        unsafe_allow_html=True,
-    )
+    
+st.write("***")
+st.write("***")
 
 def calculate_total_score(scale_score, multiple_choice_score):
     # Add the two scores together
