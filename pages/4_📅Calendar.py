@@ -101,9 +101,9 @@ for event in events:
         calendar_event['title'] = event['symbol'] + " " + emoji_dict.get(event['symbol'], "") + "💵"
         #calendar_event['symbol'] = event['date']
         if event['time'] == 'bmo': # before market opens, add sunrise symbol
-            calendar_event['title'] = '🌅' + calendar_event['date']
+            calendar_event['title'] = '🌅' + event['date']
         elif event['time'] == 'amc': # after market closes, add sunset symbol
-            calendar_event['title'] = '🌇'   + calendar_event['date']     
+            calendar_event['title'] = '🌇' + event['date']     
         else:
             calendar_event['start'] = event['date']
         calendar_events.append(calendar_event)
