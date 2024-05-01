@@ -57,43 +57,6 @@ st.markdown(page_bg_img, unsafe_allow_html=True)
 
 
 
-# # <style>
-# #     [data-testid="collapsedControl"] {
-# #         display: none
-# #     }
-# # </style>
-# # """,
-# #     unsafe_allow_html=True,
-# # )
-
-# # #'Are you Sober?' Page
-# def creds_entered():
-#     if st.session_state["user"].strip() == "yes": #and st.session_state["passwd"].strip() == "admin":
-#         st.session_state["authenticated"] = True
-#     else:
-#         st.session_state["authenticated"] = False
-#         if not st.session_state["user"]:
-#             st.warning("Are you sober? (type yes or no)")
-#         else:
-#             st.error("Invalid state, come back later :face_with_raised_eyebrow:")
-#             webbrowser.open_new_tab('https://www.summitdetox.com/blog/the-stock-market-and-your-drinking/')
-
-
-# def authenticate_user():
-#     if "authenticated" not in st.session_state:
-#         st.text_input(label="Are you sober?", value="", key="user", on_change=creds_entered)
-#         return False
-#     else:
-#         if st.session_state["authenticated"]:
-#             return True
-#         else:
-#             st.text_input(label="Are you sober?", value="", key="user", on_change=creds_entered)
-#             return False
-
-#         if st.session_state["authenticated"]:
-#             return True
-
-# if authenticate_user():
 def sidebar_bg(side_bg):
     side_bg_ext = 'gif'
     st.markdown(
@@ -122,22 +85,9 @@ with lc_co:
     st.image(img, width=500)
     
 
-# no more money rain :((
-# st.markdown(title_html, unsafe_allow_html=True)
-# #for money to fall lolol
-# rain(
-#     emoji="💸",
-#     font_size=20,
-#     falling_speed=15,
-#     animation_length="infinite",
-# )
-
-
-
-
 selected = option_menu(
     menu_title=None,
-    options=["Home","Model & Portfolio", "Stock Search","Comic Stocks", "Calendar","ChatBot"],
+    options=["Home","Portfolio Optimizer", "Stock Search","Comic Stocks", "Calendar","Virtual Assistant"],
     orientation="horizontal",
 )
 
@@ -145,7 +95,7 @@ if selected == "Home":
     st.page_link("🏠Homepage.py")
 
 if selected == "Model & Portfolio":
-    st.switch_page("pages/1_📂Model and Portfolio.py")
+    st.switch_page("pages/1_📂Portfolio_Optimizer.py")
 
 if selected == "Stock Search":
     st.switch_page("pages/2_🔍Stock Search.py")
@@ -156,7 +106,7 @@ if selected == "Comic Stocks":
 if selected == "Calendar":
     st.switch_page("pages/4_📅Calendar.py")
 
-if selected == "ChatBot":
+if selected == "Virtual Assistant":
     st.switch_page("pages/5_🐼ChatBot.py")
 
 # if selected == "About Us":
@@ -172,19 +122,19 @@ result = st.button("Get Started!")
 
 
 if result:  # ideally opens up four new pages (3 features + about us)
-    st.switch_page("pages/1_📂Model and Portfolio.py")
+    st.switch_page("pages/1_📂Portfolio_Optimizer.py")
 
 st.write("Confused? Learn more here about each feature!")
-with st.expander("📂 Model and Portfolio"):
+with st.expander("📂 Portfolio Optimizer"):
     st.write("After answering some questions about your investment goals, we will give you a score based on whether or not the article was positive and generate a portfolio of stocks that align with your best interests.")
 with st.expander("🔍 Stock Search"):
     st.write("Enter the ticker for your desired company. We will review the most recent news articles relating to its stocks, summarize them, and then give each a score based on how the article sounds.")
-with st.expander("🦸‍♀️ Comic_Stocks"):
-    st.write("ccsefgesf")
+with st.expander("🦸‍♀️ Comic Stocks"):
+    st.write("Analyzes the sentiment of an article and creatively transforms it into a child-friendly comic story, making it easier for users to understand and enjoy.")
 with st.expander("📅 Calendar"):
     st.write("The calendar shows the user when the market opens and closes, and they can type in whatever ticker to look up the earnings call dates.")
-with st.expander("🐼 ChatBot"):
-    st.write("sefsefsefes")
+with st.expander("🐼 Virtual Assistant"):
+    st.write("Meet Po, your dedicated personal assistant panda who is ready to answer any questions you have about the website.")
 
 def autoplay_audio(file_path: str):
     with open(file_path, "rb") as f:
@@ -206,5 +156,3 @@ left_co, cent_co,last_co = st.columns(3)
 with cent_co:
     st.image(img)
     autoplay_audio("natureMusic.mp3")
-#Calendar Description:
-#The calendar shows th user when the market opens and closers and they can type in whatever ticker to look up the earnings call dates
