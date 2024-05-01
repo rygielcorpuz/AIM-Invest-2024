@@ -10,6 +10,7 @@ import yfinance as yf
 import webbrowser
 import base64
 import numpy as np
+import random
 nltk.downloader.download('vader_lexicon')
 from datetime import datetime
 from streamlit_option_menu import option_menu
@@ -39,17 +40,20 @@ def blur_image(image, radius):
 page_bg_img = """
 <style>
 [data-testid="stAppViewContainer"] {
-    background-image: url("https://img.freepik.com/free-photo/bamboo-leaf-elements-green_53876-95290.jpg");
+    background-image: url("https://img.pixers.pics/pho_wat(s3:700/FO/66/66/62/03/700_FO66666203_6564ae5dc24ef5df1744e193f60e554f.jpg,700,700,cms:2018/10/5bd1b6b8d04b8_220x50-watermark.png,over,480,650,jpg)/stickers-bamboo-background.jpg.");
     background-color: rgba(255, 255, 255, 0.38); 
     background-blend-mode: lighten; 
-    background-size: cover;
+    background-size: 150%; /* Increase this value to zoom in */
+    background-repeat: no-repeat; /* Add this to prevent image repeat */
+    background-position: center; /* Center the image in the view */
 }
 </style>
 """
-#https://img.freepik.com/free-photo/bamboo-leaf-elements-green_53876-95290.jpg
-#https://64.media.tumblr.com/5d1e299f7d47f1e9ec26ffe3e924d670/tumblr_pxw1tnbCqT1y7ei2ho2_500.png
 st.markdown(page_bg_img, unsafe_allow_html=True)
 
+st.markdown(page_bg_img, unsafe_allow_html=True)
+# https://static.vecteezy.com/system/resources/thumbnails/002/623/469/small_2x/bamboo-background-grove-of-bamboo-stems-and-leaves-banner-copy-space-environmental-illustration-in-a-realistic-style-vector.jpg
+# https://img.freepik.com/free-photo/bamboo-leaf-elements-green_53876-95290.jpg
 
 
 
@@ -108,7 +112,6 @@ sidebar_bg(side_bg)
 START = "2015-01-01" #where data starts
 TODAY = datetime.today().strftime("%Y-%m-%d") #all the way to today
 
-    
 
 # DISPLAYING EVERYTHING
 #title
@@ -119,25 +122,22 @@ with lc_co:
     st.image(img, width=500)
     
 
-st.markdown(title_html, unsafe_allow_html=True)
-#for money to fall lolol
-rain(
-    emoji="💸",
-    font_size=20,
-    falling_speed=15,
-    animation_length="infinite",
-)
+# no more money rain :((
+# st.markdown(title_html, unsafe_allow_html=True)
+# #for money to fall lolol
+# rain(
+#     emoji="💸",
+#     font_size=20,
+#     falling_speed=15,
+#     animation_length="infinite",
+# )
 
-#for the navigation bar
-# st.page_link("🏠Homepage.py", label="Home", icon="🏠")
-# st.page_link("pages/1_📂Model and Portfolio.py", label="Model/Portfolio", icon="📂")
-# st.page_link("pages/2_🔍Stock Search.py", label="Stock Search", icon="🔍")
-# st.page_link("pages/3_📅Calendar.py", label="Calendar", icon="📅")
-# st.page_link("pages/4_👤About Us.py", label="About Us", icon="👤")
+
+
 
 selected = option_menu(
     menu_title=None,
-    options=["Home", "Model & Portfolio", "Stock Search", "Calendar", "About Us"],
+    options=["Home","Model & Portfolio", "Stock Search","Comic Stocks", "Calendar","ChatBot"],
     orientation="horizontal",
 )
 
@@ -150,16 +150,22 @@ if selected == "Model & Portfolio":
 if selected == "Stock Search":
     st.switch_page("pages/2_🔍Stock Search.py")
 
+if selected == "Comic Stocks":
+    st.switch_page("pages/3_🦸‍♀️Comic_Stocks.py")
+
 if selected == "Calendar":
-    st.switch_page("pages/3_📅Calendar.py")
+    st.switch_page("pages/4_📅Calendar.py")
 
-if selected == "About Us":
-    st.switch_page("pages/4_👤About Us.py")
+if selected == "ChatBot":
+    st.switch_page("pages/5_🐼ChatBot.py")
 
+# if selected == "About Us":
+#     st.switch_page("pages/6_👤About Us.py")
 
+# line
 st.markdown("<hr style='border-top: 2px solid green;'>", unsafe_allow_html=True)
 #Description
-st.write("Welcome to PandAI! Your virtual stock prediction  web application. Are you new to the stock market? Do you find yourself lost in the stocks? We here at PandAI have analyzed massive amounts of stock data in order to help out beginners like you. Simply press the 'Get Started' button below to find out how to save some big time money!")
+st.write("Welcome to PandAI! Your virtual stock prediction web application. Are you new to the stock market? Do you find yourself lost in the stocks? We here at PandAI have analyzed massive amounts of stock data to help beginners like you. Press the 'Get Started' button below to learn how to save some big-time money!")
 #Get Started Button
 result = st.button("Get Started!")
 
@@ -172,10 +178,13 @@ st.write("Confused? Learn more here about each feature!")
 with st.expander("📂 Model and Portfolio"):
     st.write("After answering some questions about your investment goals, we will give you a score based on whether or not the article was positive and generate a portfolio of stocks that align with your best interests.")
 with st.expander("🔍 Stock Search"):
-    st.write("Enter the ticker for your desired company. We will sift through the most recent news articles relating to its stocks, summarize them, then give each a score based on its tone.")
+    st.write("Enter the ticker for your desired company. We will review the most recent news articles relating to its stocks, summarize them, and then give each a score based on how the article sounds.")
+with st.expander("🦸‍♀️ Comic_Stocks"):
+    st.write("ccsefgesf")
 with st.expander("📅 Calendar"):
-    st.write("The calendar shows the user when the market opens and closes and they can type in whatever ticker to look up the earnings call dates")
-
+    st.write("The calendar shows the user when the market opens and closes, and they can type in whatever ticker to look up the earnings call dates.")
+with st.expander("🐼 ChatBot"):
+    st.write("sefsefsefes")
 
 def autoplay_audio(file_path: str):
     with open(file_path, "rb") as f:
