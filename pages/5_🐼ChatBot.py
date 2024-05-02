@@ -19,13 +19,13 @@ with st.sidebar:
         st.success('Proceed to entering your prompt message!', icon='👉')
     st.markdown('📖 Learn how to build this app in this [blog](https://blog.streamlit.io/how-to-build-an-llm-powered-chatbot-with-streamlit/)!')
     
-# Store LLM generated responses
+# Store LLM generated responses 
 if "messages" not in st.session_state.keys():
     st.session_state.messages = [{"role": "assistant", "content": "How may I help you?"}]
 
 # Display chat messages
 for message in st.session_state.messages:
-    with st.chat_message(message["role"]):
+    with st.chat_message(message["role"], avatar="🐼"):
         st.write(message["content"])
 
 # Function for generating LLM response
