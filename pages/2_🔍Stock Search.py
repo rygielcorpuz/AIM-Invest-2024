@@ -183,7 +183,7 @@ if run:
       model="accounts/fireworks/models/mixtral-8x7b-instruct",
       messages=[{
         "role": "user",
-        "content": "make a 200 word summary on the sentiment of these stock headlines in a single cohesive paragraph",
+        "content": "analyze the headlines summary and provide insights that would be relevant to a beginner with less experience with stocks",
         "content": concatenated_text,
 
       }],
