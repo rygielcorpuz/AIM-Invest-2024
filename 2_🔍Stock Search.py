@@ -38,10 +38,12 @@ def blur_image(image, radius):
 page_bg_img = """
 <style>
 [data-testid="stAppViewContainer"] {
-    background-image: url("https://img.freepik.com/free-photo/bamboo-leaf-elements-green_53876-95290.jpg");
+    background-image: url("https://img.pixers.pics/pho_wat(s3:700/FO/66/66/62/03/700_FO66666203_6564ae5dc24ef5df1744e193f60e554f.jpg,700,700,cms:2018/10/5bd1b6b8d04b8_220x50-watermark.png,over,480,650,jpg)/stickers-bamboo-background.jpg.");
     background-color: rgba(255, 255, 255, 0.38); 
     background-blend-mode: lighten; 
-    background-size: cover;
+    background-size: 150%; /* Increase this value to zoom in */
+    background-repeat: no-repeat; /* Add this to prevent image repeat */
+    background-position: center; /* Center the image in the view */
 }
 </style>
 """
@@ -50,8 +52,6 @@ st.markdown(page_bg_img, unsafe_allow_html=True)
 title_html = "<h1 style='text-align: center; font-family: Times New Roman;'>Stock Search</h1>"
 st.markdown(title_html, unsafe_allow_html=True)
 
-# line
-st.markdown("<hr style='border-top: 2px solid green;'>", unsafe_allow_html=True)
 
 START = "2015-01-01" #where data starts
 TODAY = datetime.today().strftime("%Y-%m-%d") #all the way to today
@@ -178,16 +178,16 @@ if run:
 
     concatenated_text = concatenated_text.lower()
 
-    api_key = "TgYtqlNX19kIh3wLAujegPF7ytdUOW95"
+    api_key = "AgVn8csdNAt5zUogJAn6CFa6PMUFRInohxjDaoqwsmqdzMPP"
 
 
-    client = Fireworks(api_key="TgYtqlNX19kIh3wLAujegPF7ytdUOW95")
+    client = Fireworks(api_key="AgVn8csdNAt5zUogJAn6CFa6PMUFRInohxjDaoqwsmqdzMPP")
     response = client.chat.completions.create(
       model="accounts/fireworks/models/mixtral-8x7b-instruct",
       messages=[{
         "role": "user",
-        "content": "make a 200 word summary on the sentiment of these stock headlines in a single cohesive paragraph",
-        #"content": concatenated_text,
+        "content": "analyze the headlines summary and provide insights that would be relevant to a beginner with less experience with stocks",
+        "content": concatenated_text,
 
       }],
     )
@@ -221,29 +221,6 @@ if run:
         fig.update_xaxes(title_text='Date')  # Update x-axis label
         fig.update_yaxes(title_text='Sentiment Score')  # Update y-axis label
         return fig
-
-    # def plot_hourly_sentiment(df, ticker):
-    #     # Group by date and ticker columns from scored_news and calculate the mean
-    #     mean_scores = df.groupby(['date', 'ticker']).mean()
-
-    #     # Plot a bar chart with plotly
-    #     fig = px.bar(mean_scores, x=mean_scores.index.get_level_values(0), y='sentiment_score', title=ticker + ' Hourly Sentiment')
-    #     fig.update_xaxes(title_text='Hourly Sentiment')  # Update x-axis label
-    #     fig.update_yaxes(title_text='Sentiment Score')  # Update y-axis label
-    #     return fig
-            
-    # #this one isn't loading correctly
-    # def plot_daily_sentiment(df, ticker):
-    #     # Group by date and ticker columns from scored_news and calculate the mean
-    #     mean_scores = df.groupby(['date', 'ticker']).mean()
-    #     #mean_scores = df.resample('D', on='date').mean()
-
-    #     # Plot a bar chart with plotly
-    #     fig = px.bar(mean_scores, x=mean_scores.index.get_level_values(0), y='sentiment_score', title=ticker + ' Daily Sentiment')
-    #     fig.update_xaxes(title_text='Daily Sentiment')  # Update x-axis label
-    #     fig.update_yaxes(title_text='Sentiment Score')  # Update y-axis label
-    #     return fig
-
 
     # Call the functions
     hourly_fig = plot_hourly_sentiment(df, ticker)

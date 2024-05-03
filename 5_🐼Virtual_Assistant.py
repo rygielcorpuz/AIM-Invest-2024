@@ -7,6 +7,29 @@ st.set_page_config(
     page_icon=":bamboo:",
     initial_sidebar_state="collapsed"
 )
+#for the background
+def blur_image(image, radius):
+    blurred_image = image.filter(ImageFilter.GaussianBlur(radius))
+    return blurred_image
+
+def set_bg_color():
+    st.markdown(
+        """
+        <style>
+        .stApp {
+            background-color: #E9EDC9;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+def main():
+    set_bg_color()
+
+if __name__ == "__main__":
+    main()
+
 
 # Hugging Face Credentials
 with st.sidebar:

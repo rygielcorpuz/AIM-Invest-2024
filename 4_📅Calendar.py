@@ -2,7 +2,7 @@ import datetime
 import json
 from urllib.request import urlopen
 import os
-import streamlit as st 
+import streamlit as st
 from streamlit_calendar import calendar
 from dateutil.relativedelta import relativedelta
 # For parsing data from API from JSON to a Python Dictionary
@@ -19,20 +19,17 @@ st.set_page_config(
 def blur_image(image, radius):
     blurred_image = image.filter(ImageFilter.GaussianBlur(radius))
     return blurred_image
-    
+     
 page_bg_img = """
 <style>
 [data-testid="stAppViewContainer"] {
-    background-image: url("https://img.freepik.com/free-vector/landscape-bamboo-stems-leaves_105738-387.jpg");
-    background-color: rgba(255, 255, 255, 0.38); 
-    background-blend-mode: lighten; 
+    background-image: url("https://img.freepik.com/free-photo/bamboo-leaf-elements-green_53876-95290.jpg");
     background-size: cover;
 }
 </style>
 """
-st.markdown(page_bg_img, unsafe_allow_html=True)
 
-# https://img.freepik.com/free-photo/bamboo-leaf-elements-green_53876-95290.jpg
+st.markdown(page_bg_img, unsafe_allow_html=True)
 
 title_html = "<h1 style='text-align: center; font-family: Times New Roman;'>Calendar</h1>"
 
@@ -44,7 +41,7 @@ def get_jsonparsed_data(url):
     return json.loads(data)
 
 # Get FMP API stored as environment variable
-apiKey = 'TgYtqlNX19kIh3wLAujegPF7ytdUOW95'
+apiKey = 'bdmgSco6IiUYAwzHm2leis9Hjrmpznkr'
 
 # Financialmodelingprep (FMP) api base url
 base_url = "https://financialmodelingprep.com/api/v3/"
@@ -69,14 +66,11 @@ def get_earnings_dates(url):
     return events
     
 events = get_earnings_dates(url)
-
-
-
 with st.sidebar:
     st.title("Stock Predictor")
     st.header("Earnings Calendar")
     tickers = ['GOOG', 'META', 'TSLA', 'NET', 'V', 'MA', 'BA', 'C']
-    
+
     # For users to enter tickers of interest
     tickers_string = st.text_area('Enter tickers separated by commas', value = 'TSLA, GOOG, MSFT, NVDA, APPL, META, PYPL, V, XOM, JPM, AMZN, INTC, DIS, RDDT, DELL, HPQ, MA, PLTR, ').upper()
     st.write("")
@@ -87,7 +81,7 @@ with st.sidebar:
 
     # Display the data powered by
     st.markdown("Powered by something")
-   
+
 # Parse user input into a list
 tickers_string = tickers_string.replace(' ', '')
 tickers = tickers_string.split(',')
@@ -101,18 +95,15 @@ calendar_events = []
 for event in events:
     if event['symbol'] in tickers:
         calendar_event = {}
-        calendar_event['title'] = event['symbol'] + " " + emoji_dict.get(event['symbol'], "") + "💵"
-        #calendar_event['symbol'] = event['date']
-        if event['time'] == 'bmo': # before market opens, add sunrise symbol
-            calendar_event['title'] = '🌅' + event['date']
-        elif event['time'] == 'amc': # after market closes, add sunset symbol
-            calendar_event['title'] = '🌇' + event['date']     
-        else:
-            calendar_event['start'] = event['date']
+        calendar_event['title'] = event ['symbol']+ " " + emoji_dict.get(event['symbol'], "")+"💵"
+        if event['time'] == 'bmo':  # before market opens, add sunrise symbol
+            calendar_event['title'] += '🌅' + calendar_event['title']
+        elif event['time'] == 'amc':  # after market closes, add sunset symbol
+            calendar_event['title'] += '🌇' + calendar_event['title']
+        calendar_event['start'] = event['date']
         calendar_events.append(calendar_event)
 
 st.header("Main Content")
-
 
 calendar_options = {
         "editable": False,
@@ -125,13 +116,22 @@ calendar_options = {
         #"initialDate": today.strftime('%Y-%m-%d'),
         "initialView": "dayGridMonth"
     }
-    
 
 custom_css="""
-.fc-day:after {
+.fc-day[data-date="YYYY-MM-DD"]:after {
   background-color: lightblue; /* Adjust the color as needed */
   opacity: 0.3; /* Adjust opacity for better readability */
 }
+
+.ticker-box {
+  display: inline-block;
+  background-color: lightblue;
+  padding: 0.2em 0.5em;
+  border-radius: 0.3em;
+  font-weight: bold;
+}
 """
+
+st.markdown(f"<style>{custom_css}</style>", unsafe_allow_html=True)
 
 calendar(calendar_events, options=calendar_options)

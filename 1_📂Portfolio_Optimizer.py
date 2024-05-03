@@ -27,41 +27,27 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-title_html = "<h1 style='text-align: center; font-family: Times New Roman;'>Model/Portfolio</h1>"
+title_html = "<h1 style='text-align: center; font-family: Times New Roman;'>Portfolio/Optimizer</h1>"
 st.markdown(title_html, unsafe_allow_html=True)
 
-# line
-st.markdown("<hr style='border-top: 2px solid green;'>", unsafe_allow_html=True)
 #for the background
-# def blur_image(image, radius):
-#     blurred_image = image.filter(ImageFilter.GaussianBlur(radius))
-#     return blurred_image
+def blur_image(image, radius):
+    blurred_image = image.filter(ImageFilter.GaussianBlur(radius))
+    return blurred_image
     
-# page_bg_img = """
-# <style>
-# [data-testid="stAppViewContainer"] {
-#     background-image: url("https://png.pngtree.com/background/20210714/original/pngtree-green-bamboo-material-background-picture-image_1211966.jpg");
-#     background-color: rgba(255, 255, 255, 0.38); 
-#     background-blend-mode: lighten; 
-#     background-size: cover;
-# }
-# </style>
-# """
-# st.markdown(page_bg_img, unsafe_allow_html=True)
-
 page_bg_img = """
 <style>
 [data-testid="stAppViewContainer"] {
-    background-image: url("https://png.pngtree.com/background/20210714/original/pngtree-green-bamboo-material-background-picture-image_1211966.jpg");
-    background-color: rgba(255, 255, 255, 0.38);
-    background-blend-mode: lighten;
-    background-size: cover;
-    background-position: 10% center; /* Shifts the image 80% to the right from the left edge */
+    background-image: url("https://img.pixers.pics/pho_wat(s3:700/FO/66/66/62/03/700_FO66666203_6564ae5dc24ef5df1744e193f60e554f.jpg,700,700,cms:2018/10/5bd1b6b8d04b8_220x50-watermark.png,over,480,650,jpg)/stickers-bamboo-background.jpg.");
+    background-color: rgba(255, 255, 255, 0.38); 
+    background-blend-mode: lighten; 
+    background-size: 150%; /* Increase this value to zoom in */
+    background-repeat: no-repeat; /* Add this to prevent image repeat */
+    background-position: center; /* Center the image in the view */
 }
 </style>
 """
 st.markdown(page_bg_img, unsafe_allow_html=True)
-
 
 
 def autoplay_audio(file_path: str):
@@ -78,25 +64,29 @@ def autoplay_audio(file_path: str):
                 unsafe_allow_html=True,
             )
 
-file_ = open("breathe.gif", "rb")
+file_ = open("new_breathe.gif", "rb")
 contents = file_.read()
 data_url = base64.b64encode(contents).decode("utf-8")
 file_.close()
 
 
-l_co, lc_co, c_co, cc_co, ccc_co, c_co, r_co = st.columns(7)
-with c_co, cc_co:
+on_co, tw_co, th_co, fo_co, fi_co, si_co, se_co , ei_co, ni_co = st.columns(9)
+with fi_co:
     st.write("R E L A X")
 
+oon_co, ttw_co, tth_co, ffo_co, ffi_co, ssi_co, sse_co , eei_co, nni_co, tte_co, eel_co, ttw = st.columns(12)
+with ttw_co:
+    st.markdown(
+            f'<img src="data:image/gif;base64,{data_url}" alt="breathing gif">',
+            unsafe_allow_html=True,
+        )
     
 one_co, two_co, three_co, four_co, five_co, six_co, seven_co = st.columns(7)
 with three_co:
     autoplay_audio("natureMusic.mp3")
-with two_co:
-    st.markdown(
-        f'<img src="data:image/gif;base64,{data_url}" alt="cat gif">',
-        unsafe_allow_html=True,
-    )
+    
+st.write("***")
+st.write("***")
 
 def calculate_total_score(scale_score, multiple_choice_score):
     # Add the two scores together

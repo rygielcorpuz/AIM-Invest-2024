@@ -51,11 +51,6 @@ page_bg_img = """
 """
 st.markdown(page_bg_img, unsafe_allow_html=True)
 
-st.markdown(page_bg_img, unsafe_allow_html=True)
-# https://static.vecteezy.com/system/resources/thumbnails/002/623/469/small_2x/bamboo-background-grove-of-bamboo-stems-and-leaves-banner-copy-space-environmental-illustration-in-a-realistic-style-vector.jpg
-# https://img.freepik.com/free-photo/bamboo-leaf-elements-green_53876-95290.jpg
-
-
 
 def sidebar_bg(side_bg):
     side_bg_ext = 'gif'
@@ -108,9 +103,6 @@ if selected == "Calendar":
 
 if selected == "Virtual Assistant":
     st.switch_page("pages/5_🐼ChatBot.py")
-
-# if selected == "About Us":
-#     st.switch_page("pages/6_👤About Us.py")
 
 # line
 st.markdown("<hr style='border-top: 2px solid green;'>", unsafe_allow_html=True)

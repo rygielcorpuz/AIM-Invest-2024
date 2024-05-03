@@ -27,7 +27,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-title_html = "<h1 style='text-align: center; font-family: Times New Roman;'>Model/Portfolio</h1>"
+title_html = "<h1 style='text-align: center; font-family: Times New Roman;'>Portfolio Optimizer</h1>"
 st.markdown(title_html, unsafe_allow_html=True)
 
 #for the background
@@ -38,12 +38,15 @@ def blur_image(image, radius):
 page_bg_img = """
 <style>
 [data-testid="stAppViewContainer"] {
-    background-image: url("https://img.freepik.com/free-photo/bamboo-leaf-elements-green_53876-95290.jpg");
-    background-size: cover;
+    background-image: url("https://img.pixers.pics/pho_wat(s3:700/FO/66/66/62/03/700_FO66666203_6564ae5dc24ef5df1744e193f60e554f.jpg,700,700,cms:2018/10/5bd1b6b8d04b8_220x50-watermark.png,over,480,650,jpg)/stickers-bamboo-background.jpg.");
+    background-color: rgba(255, 255, 255, 0.38); 
+    background-blend-mode: lighten; 
+    background-size: 150%; /* Increase this value to zoom in */
+    background-repeat: no-repeat; /* Add this to prevent image repeat */
+    background-position: center; /* Center the image in the view */
 }
 </style>
 """
-
 st.markdown(page_bg_img, unsafe_allow_html=True)
 
 

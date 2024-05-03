@@ -34,16 +34,19 @@ st.set_page_config(
 def blur_image(image, radius):
     blurred_image = image.filter(ImageFilter.GaussianBlur(radius))
     return blurred_image
-        
+    
 page_bg_img = """
 <style>
 [data-testid="stAppViewContainer"] {
-    background-image: url("https://img.freepik.com/free-photo/bamboo-leaf-elements-green_53876-95290.jpg");
-    background-size: cover;
+    background-image: url("https://img.pixers.pics/pho_wat(s3:700/FO/66/66/62/03/700_FO66666203_6564ae5dc24ef5df1744e193f60e554f.jpg,700,700,cms:2018/10/5bd1b6b8d04b8_220x50-watermark.png,over,480,650,jpg)/stickers-bamboo-background.jpg.");
+    background-color: rgba(255, 255, 255, 0.38); 
+    background-blend-mode: lighten; 
+    background-size: 150%; /* Increase this value to zoom in */
+    background-repeat: no-repeat; /* Add this to prevent image repeat */
+    background-position: center; /* Center the image in the view */
 }
 </style>
 """
-
 st.markdown(page_bg_img, unsafe_allow_html=True)
 
 title_html = "<h1 style='text-align: center; font-family: Times New Roman;'>Stock Search</h1>"
@@ -218,29 +221,6 @@ if run:
         fig.update_xaxes(title_text='Date')  # Update x-axis label
         fig.update_yaxes(title_text='Sentiment Score')  # Update y-axis label
         return fig
-
-    # def plot_hourly_sentiment(df, ticker):
-    #     # Group by date and ticker columns from scored_news and calculate the mean
-    #     mean_scores = df.groupby(['date', 'ticker']).mean()
-
-    #     # Plot a bar chart with plotly
-    #     fig = px.bar(mean_scores, x=mean_scores.index.get_level_values(0), y='sentiment_score', title=ticker + ' Hourly Sentiment')
-    #     fig.update_xaxes(title_text='Hourly Sentiment')  # Update x-axis label
-    #     fig.update_yaxes(title_text='Sentiment Score')  # Update y-axis label
-    #     return fig
-            
-    # #this one isn't loading correctly
-    # def plot_daily_sentiment(df, ticker):
-    #     # Group by date and ticker columns from scored_news and calculate the mean
-    #     mean_scores = df.groupby(['date', 'ticker']).mean()
-    #     #mean_scores = df.resample('D', on='date').mean()
-
-    #     # Plot a bar chart with plotly
-    #     fig = px.bar(mean_scores, x=mean_scores.index.get_level_values(0), y='sentiment_score', title=ticker + ' Daily Sentiment')
-    #     fig.update_xaxes(title_text='Daily Sentiment')  # Update x-axis label
-    #     fig.update_yaxes(title_text='Sentiment Score')  # Update y-axis label
-    #     return fig
-
 
     # Call the functions
     hourly_fig = plot_hourly_sentiment(df, ticker)
