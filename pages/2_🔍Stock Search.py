@@ -178,7 +178,7 @@ if run:
 
     concatenated_text = concatenated_text.lower()
 
-    api_key = "AgVn8csdNAt5zUogJAn6CFa6PMUFRInohxjDaoqwsmqdzMPP"
+    api_key = "4KGH4PYYHeEEAzP7LBhjclzdSmKxu9PP38CbiGZI3cWSQErL"
 
 
     client = Fireworks(api_key="AgVn8csdNAt5zUogJAn6CFa6PMUFRInohxjDaoqwsmqdzMPP")

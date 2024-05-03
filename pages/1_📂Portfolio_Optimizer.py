@@ -27,7 +27,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-title_html = "<h1 style='text-align: center; font-family: Times New Roman;'>Portfolio Optimizer</h1>"
+title_html = "<h1 style='text-align: center; font-family: Times New Roman;'>Portfolio/Optimizer</h1>"
 st.markdown(title_html, unsafe_allow_html=True)
 
 #for the background
